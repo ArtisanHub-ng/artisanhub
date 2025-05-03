@@ -6,11 +6,38 @@
   <title>Artisan Hub - Find Skilled Professionals</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    /* Base Styles */
     :root {
       --primary: #FF8C00;
+      --primary-dark: #E67E00;
       --secondary: #333;
-      --bg: #f5f5f5;
+      --light-gray: #f5f5f5;
+      --medium-gray: #ddd;
+      --dark-gray: #666;
+      --white: #fff;
+      --black: #000;
+      --success: #4CAF50;
+      --error: #f44336;
       --card-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      --transition: all 0.3s ease;
+      --background: var(--light-gray);
+      --text-color: var(--secondary);
+      --card-bg: var(--white);
+      --input-bg: var(--white);
+      --border-color: var(--medium-gray);
+    }
+    
+    [data-theme="dark"] {
+      --background: #121212;
+      --text-color: #e0e0e0;
+      --card-bg: #1e1e1e;
+      --input-bg: #2d2d2d;
+      --border-color: #444;
+      --light-gray: #2d2d2d;
+      --medium-gray: #444;
+      --dark-gray: #888;
+      --white: #1e1e1e;
+      --secondary: #e0e0e0;
     }
     
     * {
@@ -21,15 +48,37 @@
     
     body {
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--secondary);
+      background: var(--background);
+      color: var(--text-color);
       line-height: 1.5;
       padding-bottom: 70px;
     }
     
+    /* Accessibility Improvements */
+    button, input, select, textarea {
+      font: inherit;
+    }
+    
+    [aria-hidden="true"] {
+      display: none;
+    }
+    
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+    
+    /* Header Styles */
     header {
       background: var(--primary);
-      color: white;
+      color: var(--white);
       padding: 15px;
       position: sticky;
       top: 0;
@@ -49,7 +98,7 @@
     .logo-icon {
       width: 36px;
       height: 36px;
-      background: white;
+      background: var(--white);
       border-radius: 8px;
       display: flex;
       align-items: center;
@@ -68,14 +117,24 @@
       width: 36px;
       height: 36px;
       border-radius: 50%;
-      background-color: white;
-      border: 2px solid #ddd;
+      background-color: var(--white);
+      border: 2px solid var(--medium-gray);
       display: flex;
       align-items: center;
       justify-content: center;
       color: var(--primary);
       cursor: pointer;
       position: relative;
+      transition: var(--transition);
+    }
+    
+    .profile-icon:hover {
+      transform: scale(1.05);
+    }
+    
+    .profile-icon:focus {
+      outline: 2px solid var(--primary-dark);
+      outline-offset: 2px;
     }
     
     /* Profile Dropdown Menu */
@@ -83,7 +142,7 @@
       position: absolute;
       top: 50px;
       right: 10px;
-      background: white;
+      background: var(--card-bg);
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       width: 200px;
@@ -102,7 +161,8 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid var(--border-color);
+      transition: var(--transition);
     }
     
     .profile-menu-item:last-child {
@@ -110,7 +170,7 @@
     }
     
     .profile-menu-item:hover {
-      background-color: #f5f5f5;
+      background-color: var(--light-gray);
       color: var(--primary);
     }
     
@@ -139,7 +199,7 @@
     }
     
     .auth-container {
-      background: white;
+      background: var(--card-bg);
       border-radius: 10px;
       width: 90%;
       max-width: 400px;
@@ -151,7 +211,7 @@
       display: flex;
       align-items: center;
       background: var(--primary);
-      color: white;
+      color: var(--white);
       padding: 15px;
       font-weight: bold;
       position: relative;
@@ -160,10 +220,16 @@
     .auth-back-btn {
       background: none;
       border: none;
-      color: white;
+      color: var(--white);
       font-size: 1.2rem;
       margin-right: 10px;
       cursor: pointer;
+      padding: 5px;
+    }
+    
+    .auth-back-btn:focus {
+      outline: 2px solid var(--white);
+      outline-offset: 2px;
     }
     
     .auth-header {
@@ -173,7 +239,7 @@
     
     .auth-tabs {
       display: flex;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid var(--border-color);
     }
     
     .auth-tab {
@@ -181,11 +247,12 @@
       padding: 12px;
       text-align: center;
       cursor: pointer;
-      background: #f5f5f5;
+      background: var(--light-gray);
+      transition: var(--transition);
     }
     
     .auth-tab.active {
-      background: white;
+      background: var(--card-bg);
       font-weight: bold;
       border-bottom: 2px solid var(--primary);
     }
@@ -215,21 +282,46 @@
     .form-group input {
       width: 100%;
       padding: 10px;
-      border: 1px solid #ddd;
+      border: 1px solid var(--border-color);
       border-radius: 5px;
       font-size: 1rem;
+      background: var(--input-bg);
+      color: var(--text-color);
+    }
+    
+    .form-group input:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(255,140,0,0.2);
+    }
+    
+    .form-error {
+      color: var(--error);
+      font-size: 0.8rem;
+      margin-top: 5px;
+      display: none;
     }
     
     .auth-btn {
       width: 100%;
       padding: 12px;
       background: var(--primary);
-      color: white;
+      color: var(--white);
       border: none;
       border-radius: 5px;
       font-weight: bold;
       cursor: pointer;
       margin-top: 10px;
+      transition: var(--transition);
+    }
+    
+    .auth-btn:hover {
+      background: var(--primary-dark);
+    }
+    
+    .auth-btn:disabled {
+      background: var(--medium-gray);
+      cursor: not-allowed;
     }
     
     .auth-footer {
@@ -244,71 +336,12 @@
       font-weight: 500;
     }
     
-    /* About Page */
-    .about-page {
-      display: none;
-      padding: 20px;
-      background: white;
-      min-height: calc(100vh - 70px);
-    }
-    
-    .about-header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    
-    .about-header img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 15px;
-      border: 3px solid var(--primary);
-    }
-    
-    .about-content {
-      line-height: 1.6;
-    }
-    
-    .about-content h3 {
-      margin: 15px 0 10px;
-      color: var(--primary);
-    }
-    
-    /* Settings Page */
-    .settings-page {
-      display: none;
-      padding: 20px;
-      background: white;
-      min-height: calc(100vh - 70px);
-    }
-    
-    .settings-item {
-      padding: 15px 0;
-      border-bottom: 1px solid #eee;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .settings-item:last-child {
-      border-bottom: none;
-    }
-    
-    .settings-item i {
-      color: var(--primary);
-      width: 24px;
-    }
-    
-    .settings-item .right {
-      color: #777;
-    }
-    
-    /* Rest of your existing styles... */
+    /* Main Content Styles */
     main {
       padding: 15px;
     }
     
+    /* Search Component */
     .search-container {
       margin-bottom: 20px;
       position: relative;
@@ -327,10 +360,20 @@
     #searchArtisan {
       width: 100%;
       padding: 12px 15px;
-      border: 1px solid #ddd;
+      border: 1px solid var(--border-color);
       border-radius: 8px;
       font-size: 1rem;
       padding-right: 40px;
+      background: var(--input-bg);
+      color: var(--text-color);
+    }
+    
+    .search-icon {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--dark-gray);
     }
     
     .suggestions-box {
@@ -338,8 +381,8 @@
       top: 100%;
       left: 0;
       right: 0;
-      background: white;
-      border: 1px solid #ddd;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
       border-radius: 0 0 8px 8px;
       max-height: 200px;
       overflow-y: auto;
@@ -352,17 +395,18 @@
       padding: 10px 15px;
       cursor: pointer;
       font-size: 0.9rem;
+      transition: var(--transition);
     }
     
     .suggestion-item:hover {
-      background-color: #f5f5f5;
+      background-color: var(--light-gray);
     }
     
     .search-history {
-      border-top: 1px solid #eee;
+      border-top: 1px solid var(--border-color);
       padding: 10px 15px;
       font-size: 0.8rem;
-      color: #666;
+      color: var(--dark-gray);
     }
     
     .history-item {
@@ -371,6 +415,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      transition: var(--transition);
     }
     
     .history-item:hover {
@@ -378,10 +423,66 @@
     }
     
     .history-item i {
-      color: #999;
+      color: var(--dark-gray);
       font-size: 0.8rem;
     }
     
+    /* Filter Component */
+    .filter-container {
+      margin: 15px 0;
+      padding: 15px;
+      background: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: var(--card-shadow);
+    }
+    
+    .filter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .filter-title {
+      font-weight: 600;
+    }
+    
+    .filter-reset {
+      color: var(--primary);
+      background: none;
+      border: none;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+    
+    .filter-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 10px;
+    }
+    
+    .filter-group {
+      margin-bottom: 10px;
+    }
+    
+    .filter-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+    }
+    
+    .filter-group select,
+    .filter-group input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      font-size: 0.9rem;
+      background: var(--input-bg);
+      color: var(--text-color);
+    }
+    
+    /* Location Component */
     .location-row {
       display: flex;
       gap: 10px;
@@ -391,14 +492,16 @@
     #locationSelect {
       flex: 1;
       padding: 12px 15px;
-      border: 1px solid #ddd;
+      border: 1px solid var(--border-color);
       border-radius: 8px;
       font-size: 1rem;
+      background: var(--input-bg);
+      color: var(--text-color);
     }
     
     .use-location {
       background: var(--primary);
-      color: white;
+      color: var(--white);
       border: none;
       border-radius: 8px;
       padding: 0 15px;
@@ -407,8 +510,14 @@
       gap: 5px;
       font-size: 0.9rem;
       cursor: pointer;
+      transition: var(--transition);
     }
     
+    .use-location:hover {
+      background: var(--primary-dark);
+    }
+    
+    /* Artisan Grid Component */
     .artisan-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -417,21 +526,26 @@
     }
     
     .artisan-card {
-      background: white;
+      background: var(--card-bg);
       border-radius: 8px;
       padding: 12px 8px;
       text-align: center;
       box-shadow: var(--card-shadow);
-      transition: transform 0.2s;
+      transition: var(--transition);
       cursor: pointer;
     }
     
     .artisan-card:hover {
       transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
     
     .artisan-card:active {
       transform: scale(0.96);
+    }
+    
+    .artisan-card:focus {
+      outline: 2px solid var(--primary);
     }
     
     .artisan-icon {
@@ -439,39 +553,14 @@
       margin-bottom: 5px;
     }
     
-    .artisan-icon.fa-bolt { color: #FFD700; }
-    .artisan-icon.fa-faucet { color: #1E90FF; }
-    .artisan-icon.fa-hammer { color: #8B4513; }
-    .artisan-icon.fa-paint-roller { color: #9370DB; }
-    .artisan-icon.fa-tshirt { color: #FF69B4; }
-    .artisan-icon.fa-cut { color: #FF6347; }
-    .artisan-icon.fa-car { color: #4682B4; }
-    .artisan-icon.fa-broom { color: #A0522D; }
-    .artisan-icon.fa-tools { color: #696969; }
-    .artisan-icon.fa-home { color: #CD853F; }
-    .artisan-icon.fa-hotel { color: #20B2AA; }
-    .artisan-icon.fa-window-maximize { color: #87CEEB; }
-    .artisan-icon.fa-snowflake { color: #ADD8E6; }
-    .artisan-icon.fa-ice-cream { color: #00BFFF; }
-    .artisan-icon.fa-solar-panel { color: #FFA500; }
-    .artisan-icon.fa-video { color: #000080; }
-    .artisan-icon.fa-shield-alt { color: #32CD32; }
-    .artisan-icon.fa-battery-full { color: #228B22; }
-    .artisan-icon.fa-water { color: #4169E1; }
-    .artisan-icon.fa-border-style { color: #DAA520; }
-    
-    .artisan-name {
-      font-size: 0.8rem;
-      font-weight: 500;
-    }
-    
+    /* Artisan List Page */
     .artisan-list-page {
       display: none;
       padding: 15px;
     }
     
     .artisan-item {
-      background: white;
+      background: var(--card-bg);
       border-radius: 8px;
       padding: 15px;
       margin-bottom: 10px;
@@ -479,6 +568,12 @@
       align-items: center;
       box-shadow: var(--card-shadow);
       cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .artisan-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
     
     .artisan-item-pic {
@@ -503,19 +598,22 @@
       color: var(--primary);
       font-size: 0.9rem;
       margin-bottom: 5px;
+      display: flex;
+      align-items: center;
     }
     
     .artisan-item-distance {
       font-size: 0.8rem;
-      color: #666;
+      color: var(--dark-gray);
     }
     
+    /* Artisan Profile Page */
     .artisan-profile-page {
       display: none;
     }
     
     .artisan-profile {
-      background: white;
+      background: var(--card-bg);
       border-radius: 10px;
       padding: 20px;
       margin: 20px;
@@ -544,8 +642,96 @@
     .rating {
       color: var(--primary);
       font-weight: bold;
+      display: flex;
+      align-items: center;
     }
     
+    /* Profile Tabs */
+    .profile-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border-color);
+      margin: 15px 0;
+    }
+    
+    .profile-tab {
+      padding: 10px 15px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: var(--transition);
+    }
+    
+    .profile-tab.active {
+      border-bottom-color: var(--primary);
+      font-weight: bold;
+      color: var(--primary);
+    }
+    
+    .profile-tab-content {
+      display: none;
+    }
+    
+    .profile-tab-content.active {
+      display: block;
+    }
+    
+    /* Portfolio Gallery */
+    .portfolio-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .portfolio-item {
+      height: 120px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .portfolio-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+    
+    .portfolio-item img:hover {
+      transform: scale(1.05);
+    }
+    
+    /* Booking Form */
+    .booking-form {
+      margin-top: 20px;
+    }
+    
+    .booking-form .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .booking-form label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    
+    .booking-form input,
+    .booking-form textarea,
+    .booking-form select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      font-size: 1rem;
+      background: var(--input-bg);
+      color: var(--text-color);
+    }
+    
+    .booking-form textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    
+    /* Action Buttons */
     .action-buttons {
       display: flex;
       gap: 10px;
@@ -563,25 +749,36 @@
       justify-content: center;
       gap: 8px;
       cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .action-btn:hover {
+      opacity: 0.9;
     }
     
     .message-btn {
       background: var(--primary);
-      color: white;
+      color: var(--white);
     }
     
     .call-btn {
-      background: #4CAF50;
-      color: white;
+      background: var(--success);
+      color: var(--white);
     }
     
+    .book-btn {
+      background: var(--primary);
+      color: var(--white);
+    }
+    
+    /* Reviews Section */
     .reviews {
       margin-top: 20px;
     }
     
     .review {
       padding: 15px 0;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid var(--border-color);
     }
     
     .review:last-child {
@@ -602,7 +799,7 @@
     .chat-page {
       display: none;
       height: calc(100vh - 120px);
-      background: white;
+      background: var(--card-bg);
     }
     
     .chat-header {
@@ -610,10 +807,10 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid var(--border-color);
       position: sticky;
       top: 0;
-      background: white;
+      background: var(--card-bg);
       z-index: 10;
     }
     
@@ -622,6 +819,12 @@
       border: none;
       font-size: 1.2rem;
       cursor: pointer;
+      padding: 5px;
+      color: var(--text-color);
+    }
+    
+    .chat-back-btn:focus {
+      outline: 2px solid var(--primary);
     }
     
     .chat-user-info {
@@ -634,7 +837,56 @@
     
     .chat-user-info p {
       font-size: 0.8rem;
-      color: #666;
+      color: var(--dark-gray);
+    }
+    
+    .chat-status {
+      font-size: 0.7rem;
+      color: var(--dark-gray);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .typing-indicator {
+      display: none;
+      color: var(--primary);
+    }
+    
+    .typing-indicator.active {
+      display: flex;
+      align-items: center;
+    }
+    
+    .typing-dots {
+      display: flex;
+      gap: 2px;
+      margin-left: 5px;
+    }
+    
+    .typing-dot {
+      width: 5px;
+      height: 5px;
+      background-color: var(--primary);
+      border-radius: 50%;
+      animation: typingAnimation 1.4s infinite ease-in-out;
+    }
+    
+    .typing-dot:nth-child(1) {
+      animation-delay: 0s;
+    }
+    
+    .typing-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    
+    .typing-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+    
+    @keyframes typingAnimation {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-5px); }
     }
     
     .chat-messages {
@@ -662,32 +914,47 @@
       padding: 10px 15px;
       border-radius: 18px;
       margin-bottom: 5px;
+      position: relative;
+      word-break: break-word;
     }
     
     .message.sent .message-content {
       background: var(--primary);
-      color: white;
+      color: var(--white);
       border-bottom-right-radius: 5px;
     }
     
     .message.received .message-content {
-      background: #f0f0f0;
-      color: #333;
+      background: var(--light-gray);
+      color: var(--secondary);
       border-bottom-left-radius: 5px;
     }
     
     .message-time {
       font-size: 0.7rem;
-      color: #999;
+      color: var(--dark-gray);
+    }
+    
+    .message-status {
+      margin-left: 5px;
+      font-size: 0.6rem;
+    }
+    
+    .message-image {
+      max-width: 100%;
+      max-height: 200px;
+      border-radius: 8px;
+      margin-top: 5px;
+      cursor: pointer;
     }
     
     .chat-input {
       position: fixed;
       bottom: 70px;
       width: 100%;
-      background: white;
+      background: var(--card-bg);
       padding: 10px;
-      border-top: 1px solid #eee;
+      border-top: 1px solid var(--border-color);
       display: flex;
       gap: 10px;
     }
@@ -695,14 +962,16 @@
     .chat-input input {
       flex: 1;
       padding: 10px 15px;
-      border: 1px solid #ddd;
+      border: 1px solid var(--border-color);
       border-radius: 25px;
       font-size: 1rem;
+      background: var(--input-bg);
+      color: var(--text-color);
     }
     
     .chat-input button {
       background: var(--primary);
-      color: white;
+      color: var(--white);
       border: none;
       border-radius: 50%;
       width: 40px;
@@ -710,6 +979,27 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .chat-input button:hover {
+      background: var(--primary-dark);
+    }
+    
+    .file-input {
+      display: none;
+    }
+    
+    .file-input-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--light-gray);
+      color: var(--dark-gray);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
       cursor: pointer;
     }
     
@@ -723,8 +1013,13 @@
       display: flex;
       align-items: center;
       padding: 12px 0;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid var(--border-color);
       cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .message-item:hover {
+      background-color: var(--light-gray);
     }
     
     .message-item:last-child {
@@ -751,7 +1046,7 @@
     
     .message-item-preview {
       font-size: 0.9rem;
-      color: #666;
+      color: var(--dark-gray);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -759,20 +1054,35 @@
     
     .message-item-time {
       font-size: 0.7rem;
-      color: #999;
+      color: var(--dark-gray);
       text-align: right;
     }
     
+    .unread-count {
+      background: var(--primary);
+      color: var(--white);
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      margin-left: 10px;
+    }
+    
+    /* Bottom Navigation */
     .bottom-tab {
       position: fixed;
       bottom: 0;
       width: 100%;
-      background: white;
-      border-top: 1px solid #ddd;
+      background: var(--card-bg);
+      border-top: 1px solid var(--border-color);
       display: flex;
       justify-content: space-around;
       padding: 10px 0;
       box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+      z-index: 100;
     }
     
     .tab-button {
@@ -781,9 +1091,12 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      color: #666;
+      color: var(--dark-gray);
       font-size: 0.8rem;
       cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: var(--transition);
     }
     
     .tab-button i {
@@ -795,9 +1108,250 @@
       color: var(--primary);
     }
     
+    .tab-button:focus {
+      outline: 2px solid var(--primary);
+    }
+    
+    /* Wallet Page */
+    .wallet-page {
+      display: none;
+      padding: 15px;
+    }
+    
+    .wallet-balance {
+      background: var(--primary);
+      color: var(--white);
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .balance-amount {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    
+    .wallet-actions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .wallet-action {
+      background: var(--card-bg);
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: var(--card-shadow);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .wallet-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .wallet-action i {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    
+    .transaction-history {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: var(--card-shadow);
+    }
+    
+    .transaction-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .transaction-item:last-child {
+      border-bottom: none;
+    }
+    
+    .transaction-details {
+      flex: 1;
+      margin-left: 10px;
+    }
+    
+    .transaction-title {
+      font-weight: bold;
+    }
+    
+    .transaction-date {
+      font-size: 0.8rem;
+      color: var(--dark-gray);
+    }
+    
+    .transaction-amount {
+      font-weight: bold;
+    }
+    
+    .transaction-amount.credit {
+      color: var(--success);
+    }
+    
+    /* Modal Styles */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 3000;
+      display: none;
+    }
+    
+    .modal.show {
+      display: flex;
+    }
+    
+    .modal-content {
+      background: var(--card-bg);
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .modal-header {
+      padding: 15px;
+      background: var(--primary);
+      color: var(--white);
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    
+    .modal-body {
+      padding: 20px;
+    }
+    
+    .modal-footer {
+      padding: 15px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      border-top: 1px solid var(--border-color);
+    }
+    
+    /* Payment Form */
+    .payment-form .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .payment-form label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    
+    .payment-form input,
+    .payment-form select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      font-size: 1rem;
+      background: var(--input-bg);
+      color: var(--text-color);
+    }
+    
+    .card-element {
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+    
+    /* Switch styles */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+    
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+    }
+    
+    input:checked + .slider {
+      background-color: var(--primary);
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+    
+    .slider.round {
+      border-radius: 34px;
+    }
+    
+    .slider.round:before {
+      border-radius: 50%;
+    }
+    
+    /* Responsive Styles */
     @media (max-width: 600px) {
       .artisan-grid {
         grid-template-columns: repeat(3, 1fr);
+      }
+      
+      .filter-options {
+        grid-template-columns: 1fr;
+      }
+      
+      .wallet-actions {
+        grid-template-columns: 1fr;
       }
     }
     
@@ -805,6 +1359,35 @@
       .artisan-grid {
         grid-template-columns: repeat(2, 1fr);
       }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+    }
+    
+    /* Animation for notifications */
+    @keyframes slideIn {
+      from { transform: translateY(100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    .notification {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      color: var(--white);
+      padding: 10px 20px;
+      border-radius: 5px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      z-index: 2000;
+      display: none;
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    .notification.show {
+      display: block;
     }
   </style>
 </head>
@@ -816,25 +1399,10 @@
         <div class="logo-icon">AH</div>
         <div class="logo-text">Artisan Hub</div>
       </div>
-      <div class="profile-icon" onclick="toggleProfileMenu()">
+      <div class="profile-icon" id="profileIcon" aria-label="User profile" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-user"></i>
         <div class="profile-menu" id="profileMenu">
-          <div class="profile-menu-item" onclick="showAuthModal('login')">
-            <i class="fas fa-sign-in-alt"></i>
-            <span>Login</span>
-          </div>
-          <div class="profile-menu-item" onclick="showAuthModal('signup')">
-            <i class="fas fa-user-plus"></i>
-            <span>Sign Up</span>
-          </div>
-          <div class="profile-menu-item" onclick="showSettingsPage()">
-            <i class="fas fa-cog"></i>
-            <span>Settings</span>
-          </div>
-          <div class="profile-menu-item" onclick="showAboutPage()">
-            <i class="fas fa-info-circle"></i>
-            <span>About</span>
-          </div>
+          <!-- Menu items will be populated by JavaScript -->
         </div>
       </div>
     </header>
@@ -843,12 +1411,50 @@
       <div class="search-container">
         <label for="searchArtisan" class="search-label">Search for Artisan</label>
         <div class="search-wrapper">
-          <input type="text" id="searchArtisan" placeholder="Electrician, plumber, etc.">
-          <i class="fas fa-search" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #777;"></i>
-          <div class="suggestions-box" id="suggestionsBox"></div>
+          <input type="text" id="searchArtisan" placeholder="Electrician, plumber, etc." aria-label="Search for artisans">
+          <i class="fas fa-search search-icon"></i>
+          <div class="suggestions-box" id="suggestionsBox" role="listbox"></div>
         </div>
+        
+        <!-- Filter Component -->
+        <div class="filter-container" id="filterContainer" style="display: none;">
+          <div class="filter-header">
+            <div class="filter-title">Filters</div>
+            <button class="filter-reset" id="resetFilters">Reset</button>
+          </div>
+          <div class="filter-options">
+            <div class="filter-group">
+              <label for="ratingFilter">Minimum Rating</label>
+              <select id="ratingFilter">
+                <option value="0">Any rating</option>
+                <option value="3">3+ stars</option>
+                <option value="4">4+ stars</option>
+                <option value="4.5">4.5+ stars</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="distanceFilter">Max Distance</label>
+              <select id="distanceFilter">
+                <option value="0">Any distance</option>
+                <option value="5">5 km</option>
+                <option value="10">10 km</option>
+                <option value="20">20 km</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="priceFilter">Price Range</label>
+              <select id="priceFilter">
+                <option value="0">Any price</option>
+                <option value="1">Budget (₦1,000 - ₦5,000)</option>
+                <option value="2">Standard (₦5,000 - ₦20,000)</option>
+                <option value="3">Premium (₦20,000+)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
         <div class="location-row">
-          <select id="locationSelect">
+          <select id="locationSelect" aria-label="Select location">
             <option value="">Select Location</option>
             <option value="Lagos - Ikeja">Lagos - Ikeja</option>
             <option value="Lagos - Lekki">Lagos - Lekki</option>
@@ -856,94 +1462,14 @@
             <option value="Port Harcourt - GRA">Port Harcourt - GRA</option>
             <option value="Kano - Nasarawa">Kano - Nasarawa</option>
           </select>
-          <button class="use-location" onclick="useCurrentLocation()">
+          <button class="use-location" id="useLocation" aria-label="Use current location">
             <i class="fas fa-location-arrow"></i>
           </button>
         </div>
       </div>
 
-      <div class="artisan-grid">
-        <!-- All original artisan categories with colorful icons -->
-        <div class="artisan-card" onclick="showArtisanList('electrician')">
-          <div class="artisan-icon"><i class="fas fa-bolt"></i></div>
-          <div class="artisan-name">Electrician</div>
-        </div>
-        <div class="artisan-card" onclick="showArtisanList('plumber')">
-          <div class="artisan-icon"><i class="fas fa-faucet"></i></div>
-          <div class="artisan-name">Plumber</div>
-        </div>
-        <div class="artisan-card" onclick="showArtisanList('carpenter')">
-          <div class="artisan-icon"><i class="fas fa-hammer"></i></div>
-          <div class="artisan-name">Carpenter</div>
-        </div>
-        <div class="artisan-card" onclick="showArtisanList('painter')">
-          <div class="artisan-icon"><i class="fas fa-paint-roller"></i></div>
-          <div class="artisan-name">Painter</div>
-        </div>
-        <div class="artisan-card" onclick="showArtisanList('tailor')">
-          <div class="artisan-icon"><i class="fas fa-tshirt"></i></div>
-          <div class="artisan-name">Tailor</div>
-        </div>
-        <div class="artisan-card" onclick="showArtisanList('hairdresser')">
-          <div class="artisan-icon"><i class="fas fa-cut"></i></div>
-          <div class="artisan-name">Hair Stylist</div>
-        </div>
-        <div class="artisan-card" onclick="showArtisanList('mechanic')">
-          <div class="artisan-icon"><i class="fas fa-car"></i></div>
-          <div class="artisan-name">Mechanic</div>
-        </div>
-        <div class="artisan-card" onclick="showArtisanList('cleaner')">
-          <div class="artisan-icon"><i class="fas fa-broom"></i></div>
-          <div class="artisan-name">Cleaner</div>
-        </div>
-        <div class="artisan-card" onclick="showArtisanList('welder')">
-          <div class="artisan-icon"><i class="fas fa-tools"></i></div>
-          <div class="artisan-name">Welder</div>
-        </div>
-        <div class="artisan-card" onclick="showArtisanList('bricklayer')">
-          <div class="artisan-icon"><i class="fas fa-home"></i></div>
-          <div class="artisan-name">Bricklayer</div>
-        </div>
-        <div class="artisan-card" onclick="showArtisanList('housekeeper')">
-          <div class="artisan-icon"><i class="fas fa-hotel"></i></div>
-          <div class="artisan-name">Housekeeper</div>
-        </div>
-        <div class="artisan-card" onclick="showArtisanList('glazier')">
-          <div class="artisan-icon"><i class="fas fa-window-maximize"></i></div>
-          <div class="artisan-name">Glazier</div>
-        </div>
-        <div class="artisan-card" onclick="showArtisanList('ac-technician')">
-          <div class="artisan-icon"><i class="fas fa-snowflake"></i></div>
-          <div class="artisan-name">AC Technician</div>
-        </div>
-        <div class="artisan-card" onclick="showArtisanList('refrigerator')">
-          <div class="artisan-icon"><i class="fas fa-ice-cream"></i></div>
-          <div class="artisan-name">Fridge Tech</div>
-        </div>
-        <div class="artisan-card" onclick="showArtisanList('solar')">
-          <div class="artisan-icon"><i class="fas fa-solar-panel"></i></div>
-          <div class="artisan-name">Solar Installer</div>
-        </div>
-        <div class="artisan-card" onclick="showArtisanList('cctv')">
-          <div class="artisan-icon"><i class="fas fa-video"></i></div>
-          <div class="artisan-name">CCTV Installer</div>
-        </div>
-        <div class="artisan-card" onclick="showArtisanList('fence')">
-          <div class="artisan-icon"><i class="fas fa-shield-alt"></i></div>
-          <div class="artisan-name">Electric Fence</div>
-        </div>
-        <div class="artisan-card" onclick="showArtisanList('inverter')">
-          <div class="artisan-icon"><i class="fas fa-battery-full"></i></div>
-          <div class="artisan-name">Inverter Tech</div>
-        </div>
-        <div class="artisan-card" onclick="showArtisanList('borehole')">
-          <div class="artisan-icon"><i class="fas fa-water"></i></div>
-          <div class="artisan-name">Borehole Driller</div>
-        </div>
-        <div class="artisan-card" onclick="showArtisanList('tiler')">
-          <div class="artisan-icon"><i class="fas fa-border-style"></i></div>
-          <div class="artisan-name">Tiler</div>
-        </div>
+      <div class="artisan-grid" id="artisanGrid">
+        <!-- Artisan cards will be populated by JavaScript -->
       </div>
     </main>
   </div>
@@ -955,9 +1481,9 @@
         <div class="logo-icon">AH</div>
         <div class="logo-text">Artisan Hub</div>
       </div>
-      <div class="profile-icon" onclick="goBackToHome()">
+      <button class="profile-icon" id="backToHome" aria-label="Go back">
         <i class="fas fa-arrow-left"></i>
-      </div>
+      </button>
     </header>
 
     <main id="artisan-list-container">
@@ -972,250 +1498,75 @@
         <div class="logo-icon">AH</div>
         <div class="logo-text">Artisan Hub</div>
       </div>
-      <div class="profile-icon" onclick="goBackToList()">
+      <button class="profile-icon" id="backToList" aria-label="Go back">
         <i class="fas fa-arrow-left"></i>
-      </div>
+      </button>
     </header>
 
     <div class="artisan-profile">
       <div class="profile-header">
-        <img src="" alt="Artisan" class="profile-pic">
+        <img src="" alt="Artisan" class="profile-pic" id="artisanProfilePic">
         <div class="profile-info">
-          <h2>Artisan Name</h2>
-          <p>Profession</p>
-          <p class="rating">⭐ 4.5 (120 reviews)</p>
+          <h2 id="artisanName">Artisan Name</h2>
+          <p id="artisanProfession">Profession</p>
+          <p class="rating" id="artisanRating">⭐ 4.5 (120 reviews)</p>
+        </div>
+      </div>
+
+      <div class="profile-tabs">
+        <div class="profile-tab active" id="aboutTabBtn">About</div>
+        <div class="profile-tab" id="portfolioTabBtn">Portfolio</div>
+        <div class="profile-tab" id="reviewsTabBtn">Reviews</div>
+      </div>
+
+      <div class="profile-tab-content active" id="aboutTab">
+        <div id="artisanBio">
+          <!-- Bio will be populated by JavaScript -->
+        </div>
+        <div class="artisan-details">
+          <h3>Details</h3>
+          <div id="artisanDetails">
+            <!-- Details will be populated by JavaScript -->
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-tab-content" id="portfolioTab">
+        <div class="portfolio-gallery" id="portfolioGallery">
+          <!-- Portfolio items will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <div class="profile-tab-content" id="reviewsTab">
+        <div class="reviews" id="artisanReviews">
+          <!-- Reviews will be populated by JavaScript -->
         </div>
       </div>
 
       <div class="action-buttons">
-        <button class="action-btn message-btn" onclick="startChat()">
+        <button class="action-btn message-btn" id="messageArtisan">
           <i class="fas fa-comment"></i> Message
         </button>
-        <button class="action-btn call-btn" onclick="startCall()">
+        <button class="action-btn call-btn" id="callArtisan">
           <i class="fas fa-phone"></i> Call
         </button>
-      </div>
-
-      <div class="reviews">
-        <h3>Reviews</h3>
-        
-        <div class="review">
-          <div class="reviewer">Customer Name</div>
-          <div class="stars">★★★★★</div>
-          <div class="comment">Excellent service!</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 4. About Page -->
-  <div id="about-page" class="about-page">
-    <header>
-      <div class="logo-container">
-        <div class="logo-icon">AH</div>
-        <div class="logo-text">Artisan Hub</div>
-      </div>
-      <div class="profile-icon" onclick="closeAboutPage()">
-        <i class="fas fa-arrow-left"></i>
-      </div>
-    </header>
-
-    <div class="about-header">
-      <img src="https://via.placeholder.com/100" alt="Artisan Hub Logo">
-      <h2>About Artisan Hub</h2>
-    </div>
-
-    <div class="about-content">
-      <p>Welcome to Artisan Hub, your trusted platform for connecting with skilled professionals in various trades and services.</p>
-      
-      <h3>Our Mission</h3>
-      <p>To bridge the gap between customers and skilled artisans by providing a reliable, easy-to-use platform that ensures quality service delivery.</p>
-      
-      <h3>What We Offer</h3>
-      <p>Artisan Hub provides access to verified professionals across 20+ categories including electricians, plumbers, carpenters, tailors, and more. Our rating system helps you choose the best artisan for your needs.</p>
-      
-      <h3>Why Choose Us</h3>
-      <p>- Verified and rated professionals<br>
-      - Easy booking and payment system<br>
-      - Transparent pricing<br>
-      - Customer reviews and ratings<br>
-      - Secure messaging system</p>
-      
-      <h3>Contact Us</h3>
-      <p>Email: info@artisanhub.com<br>
-      Phone: +234 800 123 4567<br>
-      Address: 123 Service Lane, Lagos, Nigeria</p>
-    </div>
-  </div>
-
-  <!-- 5. Settings Page -->
-  <div id="settings-page" class="settings-page">
-    <header>
-      <div class="logo-container">
-        <div class="logo-icon">AH</div>
-        <div class="logo-text">Settings</div>
-      </div>
-      <div class="profile-icon" onclick="closeSettingsPage()">
-        <i class="fas fa-arrow-left"></i>
-      </div>
-    </header>
-
-    <div class="settings-item">
-      <div class="left">
-        <i class="fas fa-bell"></i>
-        <span>Notifications</span>
-      </div>
-      <div class="right">
-        <i class="fas fa-chevron-right"></i>
-      </div>
-    </div>
-
-    <div class="settings-item">
-      <div class="left">
-        <i class="fas fa-moon"></i>
-        <span>Dark Mode</span>
-      </div>
-      <div class="right">
-        <label class="switch">
-          <input type="checkbox" id="darkModeToggle">
-          <span class="slider round"></span>
-        </label>
-      </div>
-    </div>
-
-    <div class="settings-item">
-      <div class="left">
-        <i class="fas fa-shield-alt"></i>
-        <span>Privacy</span>
-      </div>
-      <div class="right">
-        <i class="fas fa-chevron-right"></i>
-      </div>
-    </div>
-
-    <div class="settings-item">
-      <div class="left">
-        <i class="fas fa-question-circle"></i>
-        <span>Help & Support</span>
-      </div>
-      <div class="right">
-        <i class="fas fa-chevron-right"></i>
-      </div>
-    </div>
-
-    <div class="settings-item">
-      <div class="left">
-        <i class="fas fa-file-alt"></i>
-        <span>Terms & Conditions</span>
-      </div>
-      <div class="right">
-        <i class="fas fa-chevron-right"></i>
-      </div>
-    </div>
-
-    <div class="settings-item" onclick="logout()">
-      <div class="left">
-        <i class="fas fa-sign-out-alt"></i>
-        <span>Logout</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- 6. Auth Modal -->
-  <div class="auth-modal" id="authModal">
-    <div class="auth-container">
-      <div class="auth-header-container">
-        <button class="auth-back-btn" onclick="hideAuthModal(); showHomePage();">
-          <i class="fas fa-arrow-left"></i>
+        <button class="action-btn book-btn" id="bookArtisan">
+          <i class="fas fa-calendar-check"></i> Book
         </button>
-        <div class="auth-header" id="authHeader">Login</div>
-      </div>
-      <div class="auth-tabs">
-        <div class="auth-tab active" id="loginTab" onclick="switchAuthTab('login')">Login</div>
-        <div class="auth-tab" id="signupTab" onclick="switchAuthTab('signup')">Sign Up</div>
-      </div>
-      
-      <div class="auth-content">
-        <form class="auth-form active" id="loginForm">
-          <div class="form-group">
-            <label for="loginEmail">Email</label>
-            <input type="email" id="loginEmail" placeholder="Enter your email" required>
-          </div>
-          <div class="form-group">
-            <label for="loginPassword">Password</label>
-            <input type="password" id="loginPassword" placeholder="Enter your password" required>
-          </div>
-          <button type="button" class="auth-btn" onclick="login()">Login</button>
-          <div class="auth-footer">
-            <a href="#" onclick="alert('Password reset link sent to your email')">Forgot password?</a>
-          </div>
-        </form>
-        
-        <form class="auth-form" id="signupForm">
-          <div class="form-group">
-            <label for="signupName">Full Name</label>
-            <input type="text" id="signupName" placeholder="Enter your full name" required>
-          </div>
-          <div class="form-group">
-            <label for="signupEmail">Email</label>
-            <input type="email" id="signupEmail" placeholder="Enter your email" required>
-          </div>
-          <div class="form-group">
-            <label for="signupPhone">Phone Number</label>
-            <input type="tel" id="signupPhone" placeholder="Enter your phone number" required>
-          </div>
-          <div class="form-group">
-            <label for="signupPassword">Password</label>
-            <input type="password" id="signupPassword" placeholder="Create a password" required>
-          </div>
-          <div class="form-group">
-            <label for="signupConfirm">Confirm Password</label>
-            <input type="password" id="signupConfirm" placeholder="Confirm your password" required>
-          </div>
-          <button type="button" class="auth-btn" onclick="signup()">Create Account</button>
-          <div class="auth-footer">
-            Already have an account? <a href="#" onclick="switchAuthTab('login')">Login</a>
-          </div>
-        </form>
       </div>
     </div>
   </div>
 
-  <!-- 7. Chat Page -->
-  <div id="chat-page" class="chat-page">
-    <div class="chat-header">
-      <button class="chat-back-btn" onclick="goBackFromChat()">
-        <i class="fas fa-arrow-left"></i>
-      </button>
-      <img src="" alt="Artisan" class="profile-pic" style="width: 40px; height: 40px;">
-      <div class="chat-user-info">
-        <h3 id="chat-artisan-name">Artisan Name</h3>
-        <p id="chat-artisan-profession">Profession</p>
-      </div>
-    </div>
-    
-    <div class="chat-messages" id="chat-messages">
-      <!-- Messages will be inserted here -->
-    </div>
-    
-    <div class="chat-input">
-      <input type="text" id="chat-input-field" placeholder="Type your message...">
-      <button onclick="sendMessage()">
-        <i class="fas fa-paper-plane"></i>
-      </button>
-    </div>
-  </div>
-
-  <!-- 8. Messages Page -->
+  <!-- 4. Messages Page -->
   <div id="messages-page" class="messages-page">
     <header>
       <div class="logo-container">
         <div class="logo-icon">AH</div>
         <div class="logo-text">Messages</div>
       </div>
-      <div class="profile-icon" onclick="goBackToHome()">
+      <button class="profile-icon" id="backToHomeFromMessages" aria-label="Go back">
         <i class="fas fa-arrow-left"></i>
-      </div>
+      </button>
     </header>
 
     <main id="messages-list">
@@ -1223,597 +1574,1820 @@
     </main>
   </div>
 
-  <!-- Bottom Navigation - Only Home, Messages, Wallet -->
+  <!-- 5. Wallet Page -->
+  <div id="wallet-page" class="wallet-page">
+    <header>
+      <div class="logo-container">
+        <div class="logo-icon">AH</div>
+        <div class="logo-text">Wallet</div>
+      </div>
+      <button class="profile-icon" id="backToHomeFromWallet" aria-label="Go back">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+    </header>
+
+    <main>
+      <div class="wallet-balance">
+        <div>Your Balance</div>
+        <div class="balance-amount" id="walletBalance">₦0.00</div>
+        <div>Available for payments</div>
+      </div>
+
+      <div class="wallet-actions">
+        <div class="wallet-action" id="addMoneyBtn">
+          <i class="fas fa-plus-circle"></i>
+          <div>Add Money</div>
+        </div>
+        <div class="wallet-action" id="sendMoneyBtn">
+          <i class="fas fa-paper-plane"></i>
+          <div>Send Money</div>
+        </div>
+        <div class="wallet-action" id="withdrawBtn">
+          <i class="fas fa-money-bill-wave"></i>
+          <div>Withdraw</div>
+        </div>
+        <div class="wallet-action" id="historyBtn">
+          <i class="fas fa-history"></i>
+          <div>History</div>
+        </div>
+      </div>
+
+      <div class="transaction-history">
+        <h3>Recent Transactions</h3>
+        <div id="transactionList">
+          <!-- Transactions will be populated by JavaScript -->
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- 6. Chat Page -->
+  <div id="chat-page" class="chat-page">
+    <div class="chat-header">
+      <button class="chat-back-btn" id="backFromChat" aria-label="Go back">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <img src="" alt="Artisan" class="profile-pic" id="chatArtisanPic">
+      <div class="chat-user-info">
+        <h3 id="chat-artisan-name">Artisan Name</h3>
+        <div class="chat-status">
+          <span id="chat-artisan-profession">Profession</span>
+          <div class="typing-indicator" id="typingIndicator">
+            <span>typing</span>
+            <div class="typing-dots">
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="chat-messages" id="chat-messages" tabindex="0">
+      <!-- Messages will be inserted here -->
+    </div>
+    
+    <div class="chat-input">
+      <label for="fileInput" class="file-input-label" aria-label="Attach file">
+        <i class="fas fa-paperclip"></i>
+      </label>
+      <input type="file" id="fileInput" class="file-input" accept="image/*">
+      <input type="text" id="chat-input-field" placeholder="Type your message..." aria-label="Type your message">
+      <button id="sendMessageBtn" aria-label="Send message">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- 7. Auth Modal -->
+  <div class="auth-modal" id="authModal">
+    <div class="auth-container">
+      <div class="auth-header-container">
+        <button class="auth-back-btn" id="closeAuthModal" aria-label="Close modal">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <div class="auth-header" id="authHeader">Login</div>
+      </div>
+      <div class="auth-tabs">
+        <div class="auth-tab active" id="loginTab" role="tab" aria-selected="true">Login</div>
+        <div class="auth-tab" id="signupTab" role="tab" aria-selected="false">Sign Up</div>
+      </div>
+      
+      <div class="auth-content">
+        <form class="auth-form active" id="loginForm" novalidate>
+          <div class="form-group">
+            <label for="loginEmail">Email</label>
+            <input type="email" id="loginEmail" placeholder="Enter your email" required aria-required="true">
+            <div class="form-error" id="loginEmailError">Please enter a valid email address</div>
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" placeholder="Enter your password" required aria-required="true">
+            <div class="form-error" id="loginPasswordError">Password must be at least 6 characters</div>
+          </div>
+          <button type="button" class="auth-btn" id="loginBtn">Login</button>
+          <div class="auth-footer">
+            <a href="#" id="forgotPasswordLink">Forgot password?</a>
+          </div>
+        </form>
+        
+        <form class="auth-form" id="signupForm" novalidate>
+          <div class="form-group">
+            <label for="signupName">Full Name</label>
+            <input type="text" id="signupName" placeholder="Enter your full name" required aria-required="true">
+            <div class="form-error" id="signupNameError">Please enter your name</div>
+          </div>
+          <div class="form-group">
+            <label for="signupEmail">Email</label>
+            <input type="email" id="signupEmail" placeholder="Enter your email" required aria-required="true">
+            <div class="form-error" id="signupEmailError">Please enter a valid email address</div>
+          </div>
+          <div class="form-group">
+            <label for="signupPhone">Phone Number</label>
+            <input type="tel" id="signupPhone" placeholder="Enter your phone number" required aria-required="true">
+            <div class="form-error" id="signupPhoneError">Please enter a valid phone number</div>
+          </div>
+          <div class="form-group">
+            <label for="signupPassword">Password</label>
+            <input type="password" id="signupPassword" placeholder="Create a password" required aria-required="true">
+            <div class="form-error" id="signupPasswordError">Password must be at least 8 characters with 1 number</div>
+          </div>
+          <div class="form-group">
+            <label for="signupConfirm">Confirm Password</label>
+            <input type="password" id="signupConfirm" placeholder="Confirm your password" required aria-required="true">
+            <div class="form-error" id="signupConfirmError">Passwords do not match</div>
+          </div>
+          <button type="button" class="auth-btn" id="signupBtn">Create Account</button>
+          <div class="auth-footer">
+            Already have an account? <a href="#" id="switchToLogin">Login</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Booking Modal -->
+  <div class="modal" id="bookingModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Book Service</h3>
+        <button class="modal-close" id="closeBookingModal" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form class="booking-form" id="bookingForm">
+          <div class="form-group">
+            <label for="bookingService">Service</label>
+            <input type="text" id="bookingService" readonly>
+          </div>
+          <div class="form-group">
+            <label for="bookingArtisan">Artisan</label>
+            <input type="text" id="bookingArtisan" readonly>
+          </div>
+          <div class="form-group">
+            <label for="bookingDate">Date</label>
+            <input type="date" id="bookingDate" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="bookingTime">Time</label>
+            <select id="bookingTime" required aria-required="true">
+              <option value="">Select time</option>
+              <option value="08:00">8:00 AM</option>
+              <option value="10:00">10:00 AM</option>
+              <option value="12:00">12:00 PM</option>
+              <option value="14:00">2:00 PM</option>
+              <option value="16:00">4:00 PM</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="bookingAddress">Address</label>
+            <textarea id="bookingAddress" required aria-required="true"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="bookingNotes">Special Instructions</label>
+            <textarea id="bookingNotes"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="action-btn" id="cancelBooking">Cancel</button>
+        <button class="action-btn book-btn" id="confirmBooking">Confirm Booking</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. Payment Modals -->
+  <div class="modal" id="addMoneyModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add Money to Wallet</h3>
+        <button class="modal-close" id="closeAddMoneyModal" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form class="payment-form" id="addMoneyForm">
+          <div class="form-group">
+            <label for="addAmount">Amount (₦)</label>
+            <input type="number" id="addAmount" min="100" step="100" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="addPaymentMethod">Payment Method</label>
+            <select id="addPaymentMethod" required aria-required="true">
+              <option value="">Select method</option>
+              <option value="card">Credit/Debit Card</option>
+              <option value="bank">Bank Transfer</option>
+              <option value="ussd">USSD</option>
+            </select>
+          </div>
+          <div id="cardPaymentFields" style="display: none;">
+            <div class="card-element" id="cardElement">
+              <!-- Stripe card element will be inserted here -->
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="action-btn" id="cancelAddMoney">Cancel</button>
+        <button class="action-btn book-btn" id="processPayment">Add Money</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. Forgot Password Modal -->
+  <div class="modal" id="forgotPasswordModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Reset Password</h3>
+        <button class="modal-close" id="closeForgotPasswordModal" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="forgotPasswordForm">
+          <div class="form-group">
+            <label for="resetEmail">Email</label>
+            <input type="email" id="resetEmail" required aria-required="true">
+          </div>
+          <p>We'll send you a link to reset your password.</p>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="action-btn" id="cancelForgotPassword">Cancel</button>
+        <button class="action-btn book-btn" id="sendResetLink">Send Reset Link</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. About Page -->
+  <div id="about-page" style="display: none;">
+    <header>
+      <div class="logo-container">
+        <div class="logo-icon">AH</div>
+        <div class="logo-text">About</div>
+      </div>
+      <button class="profile-icon" id="closeAboutPage" aria-label="Go back">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+    </header>
+
+    <main style="padding: 20px;">
+      <div class="artisan-profile">
+        <h2>About Artisan Hub</h2>
+        <p>Artisan Hub is a platform that connects customers with skilled professionals for various services.</p>
+        
+        <h3 style="margin-top: 20px;">Features</h3>
+        <ul style="margin-left: 20px;">
+          <li>Find skilled artisans in your area</li>
+          <li>View portfolios and reviews</li>
+          <li>Book services directly</li>
+          <li>Secure in-app messaging</li>
+          <li>Wallet for easy payments</li>
+        </ul>
+        
+        <h3 style="margin-top: 20px;">Version</h3>
+        <p>1.0.0</p>
+        
+        <h3 style="margin-top: 20px;">Contact Us</h3>
+        <p>Email: artisanhub.ng@gmail.com</p>
+        <p>Phone: +234 802 216 0355</p>
+      </div>
+    </main>
+  </div>
+
+  <!-- 12. Settings Page -->
+  <div id="settings-page" style="display: none;">
+    <header>
+      <div class="logo-container">
+        <div class="logo-icon">AH</div>
+        <div class="logo-text">Settings</div>
+      </div>
+      <button class="profile-icon" id="closeSettingsPage" aria-label="Go back">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+    </header>
+
+    <main style="padding: 20px;">
+      <div class="artisan-profile">
+        <h2>App Settings</h2>
+        
+        <div class="form-group" style="margin-top: 20px;">
+          <label for="themeToggle">Dark Mode</label>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <label class="switch">
+              <input type="checkbox" id="themeToggle">
+              <span class="slider round"></span>
+            </label>
+            <span id="themeStatus">Off</span>
+          </div>
+        </div>
+        
+        <div class="form-group" style="margin-top: 20px;">
+          <label>Notifications</label>
+          <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+            <label style="display: flex; align-items: center; gap: 10px;">
+              <input type="checkbox" id="messageNotifications" checked>
+              <span>Message notifications</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 10px;">
+              <input type="checkbox" id="bookingNotifications" checked>
+              <span>Booking notifications</span>
+            </label>
+          </div>
+        </div>
+        
+        <button class="action-btn" style="margin-top: 30px;" id="saveSettings">
+          Save Settings
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <!-- 13. Notification -->
+  <div class="notification" id="notification"></div>
+
+  <!-- Bottom Navigation -->
   <nav class="bottom-tab">
-    <button class="tab-button active" onclick="showHomePage()">
+    <button class="tab-button active" id="homeTab" aria-label="Home">
       <i class="fas fa-home"></i>
       <span>Home</span>
     </button>
-    <button class="tab-button" onclick="showMessagesPage()">
+    <button class="tab-button" id="messagesTab" aria-label="Messages">
       <i class="fas fa-comment-alt"></i>
       <span>Messages</span>
     </button>
-    <button class="tab-button" onclick="showWallet()">
+    <button class="tab-button" id="walletTab" aria-label="Wallet">
       <i class="fas fa-wallet"></i>
       <span>Wallet</span>
     </button>
   </nav>
 
   <script>
-    // Current page state
-    let currentServiceType = '';
-    let currentArtisan = null;
-    let searchHistory = JSON.parse(localStorage.getItem('artisanSearchHistory')) || [];
-    let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    const allArtisanTypes = [
-      "electrician", "plumber", "carpenter", "painter", "tailor",
-      "hairdresser", "mechanic", "cleaner", "welder", "bricklayer",
-      "housekeeper", "glazier", "ac-technician", "refrigerator", 
-      "solar", "cctv", "fence", "inverter", "borehole", "tiler"
-    ];
-
-    // Chat messages storage
-    let messages = JSON.parse(localStorage.getItem('artisanMessages')) || {};
-    let currentChatId = null;
-
-    // Initialize
-    document.addEventListener('DOMContentLoaded', function() {
-      const searchInput = document.getElementById('searchArtisan');
-      const suggestionsBox = document.getElementById('suggestionsBox');
+    // ArtisanHub App - Modular Structure
+    class ArtisanHub {
+      constructor() {
+        this.currentServiceType = '';
+        this.currentArtisan = null;
+        this.searchHistory = JSON.parse(localStorage.getItem('artisanSearchHistory')) || [];
+        this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        this.userData = JSON.parse(localStorage.getItem('userData')) || null;
+        this.messages = JSON.parse(localStorage.getItem('artisanMessages')) || {};
+        this.currentChatId = null;
+        this.typingTimeout = null;
+        this.darkMode = localStorage.getItem('darkMode') === 'true';
+        
+        // Initialize app
+        this.init();
+      }
       
-      searchInput.addEventListener('input', function(e) {
-        showSearchSuggestions(e.target.value);
-      });
-      
-      searchInput.addEventListener('focus', function() {
-        showSearchSuggestions(this.value);
-      });
-      
-      document.addEventListener('click', function(e) {
-        if (!e.target.closest('.search-wrapper')) {
-          suggestionsBox.style.display = 'none';
+      init() {
+        this.cacheDOM();
+        this.setupEventListeners();
+        this.loadArtisanCategories();
+        this.updateAuthUI();
+        this.showHomePage();
+        this.applyTheme();
+        
+        // Load notification settings
+        const messageNotif = localStorage.getItem('messageNotifications');
+        const bookingNotif = localStorage.getItem('bookingNotifications');
+        
+        if (messageNotif !== null) {
+          document.getElementById('messageNotifications').checked = messageNotif === 'true';
         }
-        if (!e.target.closest('.profile-icon')) {
-          document.getElementById('profileMenu').classList.remove('show');
+        
+        if (bookingNotif !== null) {
+          document.getElementById('bookingNotifications').checked = bookingNotif === 'true';
         }
-      });
-
-      // Initialize chat input
-      document.getElementById('chat-input-field').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          sendMessage();
-        }
-      });
-      
-      updateAuthUI();
-    });
-
-    // Profile menu functions
-    function toggleProfileMenu() {
-      document.getElementById('profileMenu').classList.toggle('show');
-    }
-
-    function updateAuthUI() {
-      const profileMenu = document.getElementById('profileMenu');
-      if (isLoggedIn) {
-        profileMenu.innerHTML = `
-          <div class="profile-menu-item" onclick="logout()">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Logout</span>
-          </div>
-          <div class="profile-menu-item" onclick="showSettingsPage()">
-            <i class="fas fa-cog"></i>
-            <span>Settings</span>
-          </div>
-          <div class="profile-menu-item" onclick="showAboutPage()">
-            <i class="fas fa-info-circle"></i>
-            <span>About</span>
-          </div>
-        `;
-      } else {
-        profileMenu.innerHTML = `
-          <div class="profile-menu-item" onclick="showAuthModal('login')">
-            <i class="fas fa-sign-in-alt"></i>
-            <span>Login</span>
-          </div>
-          <div class="profile-menu-item" onclick="showAuthModal('signup')">
-            <i class="fas fa-user-plus"></i>
-            <span>Sign Up</span>
-          </div>
-          <div class="profile-menu-item" onclick="showSettingsPage()">
-            <i class="fas fa-cog"></i>
-            <span>Settings</span>
-          </div>
-          <div class="profile-menu-item" onclick="showAboutPage()">
-            <i class="fas fa-info-circle"></i>
-            <span>About</span>
-          </div>
-        `;
-      }
-    }
-
-    // Auth modal functions
-    function showAuthModal(type) {
-      document.getElementById('authModal').classList.add('show');
-      document.getElementById('profileMenu').classList.remove('show');
-      switchAuthTab(type);
-    }
-
-    function hideAuthModal() {
-      document.getElementById('authModal').classList.remove('show');
-    }
-
-    function switchAuthTab(type) {
-      if (type === 'login') {
-        document.getElementById('loginTab').classList.add('active');
-        document.getElementById('signupTab').classList.remove('active');
-        document.getElementById('loginForm').classList.add('active');
-        document.getElementById('signupForm').classList.remove('active');
-        document.getElementById('authHeader').textContent = 'Login';
-      } else {
-        document.getElementById('loginTab').classList.remove('active');
-        document.getElementById('signupTab').classList.add('active');
-        document.getElementById('loginForm').classList.remove('active');
-        document.getElementById('signupForm').classList.add('active');
-        document.getElementById('authHeader').textContent = 'Sign Up';
-      }
-    }
-
-    function login() {
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
-      
-      // Simple validation
-      if (!email || !password) {
-        alert('Please fill in all fields');
-        return;
-      }
-      
-      // In a real app, you would call your backend API here
-      isLoggedIn = true;
-      localStorage.setItem('isLoggedIn', 'true');
-      hideAuthModal();
-      updateAuthUI();
-      alert('Login successful!');
-    }
-
-    function signup() {
-      const name = document.getElementById('signupName').value;
-      const email = document.getElementById('signupEmail').value;
-      const phone = document.getElementById('signupPhone').value;
-      const password = document.getElementById('signupPassword').value;
-      const confirm = document.getElementById('signupConfirm').value;
-      
-      // Simple validation
-      if (!name || !email || !phone || !password || !confirm) {
-        alert('Please fill in all fields');
-        return;
-      }
-      
-      if (password !== confirm) {
-        alert('Passwords do not match');
-        return;
-      }
-      
-      // In a real app, you would call your backend API here
-      isLoggedIn = true;
-      localStorage.setItem('isLoggedIn', 'true');
-      hideAuthModal();
-      updateAuthUI();
-      alert('Account created successfully! You are now logged in.');
-    }
-
-    function logout() {
-      isLoggedIn = false;
-      localStorage.setItem('isLoggedIn', 'false');
-      updateAuthUI();
-      closeSettingsPage();
-      alert('You have been logged out.');
-    }
-
-    // About and Settings pages
-    function showAboutPage() {
-      hideAllPages();
-      document.getElementById('about-page').style.display = 'block';
-      document.getElementById('profileMenu').classList.remove('show');
-    }
-
-    function closeAboutPage() {
-      document.getElementById('about-page').style.display = 'none';
-      showHomePage();
-    }
-
-    function showSettingsPage() {
-      hideAllPages();
-      document.getElementById('settings-page').style.display = 'block';
-      document.getElementById('profileMenu').classList.remove('show');
-    }
-
-    function closeSettingsPage() {
-      document.getElementById('settings-page').style.display = 'none';
-      showHomePage();
-    }
-
-    function hideAllPages() {
-      document.getElementById('home-page').style.display = 'none';
-      document.getElementById('artisan-list-page').style.display = 'none';
-      document.getElementById('artisan-profile-page').style.display = 'none';
-      document.getElementById('about-page').style.display = 'none';
-      document.getElementById('settings-page').style.display = 'none';
-      document.getElementById('chat-page').style.display = 'none';
-      document.getElementById('messages-page').style.display = 'none';
-    }
-
-    // Original search functions
-    function showSearchSuggestions(searchTerm) {
-      const suggestionsBox = document.getElementById('suggestionsBox');
-      suggestionsBox.innerHTML = '';
-      
-      if (!searchTerm) {
-        if (searchHistory.length > 0) {
-          const historyTitle = document.createElement('div');
-          historyTitle.className = 'search-history';
-          historyTitle.textContent = 'Recent searches:';
-          suggestionsBox.appendChild(historyTitle);
-          
-          searchHistory.forEach(term => {
-            const item = document.createElement('div');
-            item.className = 'history-item';
-            item.innerHTML = `
-              <span>${term}</span>
-              <i class="fas fa-times" onclick="event.stopPropagation();removeFromHistory('${term}')"></i>
-            `;
-            item.onclick = () => {
-              document.getElementById('searchArtisan').value = term;
-              searchArtisans(term);
-            };
-            suggestionsBox.appendChild(item);
+        
+        // Check for service worker support
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').then(registration => {
+              console.log('ServiceWorker registration successful');
+            }).catch(err => {
+              console.log('ServiceWorker registration failed: ', err);
+            });
           });
         }
-        suggestionsBox.style.display = 'block';
-        return;
       }
       
-      const matches = allArtisanTypes.filter(type => 
-        type.toLowerCase().includes(searchTerm.toLowerCase()))
-        .slice(0, 5);
-      
-      matches.forEach(match => {
-        const item = document.createElement('div');
-        item.className = 'suggestion-item';
-        const displayText = match.charAt(0).toUpperCase() + match.slice(1).replace('-', ' ');
-        item.textContent = displayText;
-        item.onclick = () => {
-          document.getElementById('searchArtisan').value = displayText;
-          searchArtisans(match);
-        };
-        suggestionsBox.appendChild(item);
-      });
-      
-      suggestionsBox.style.display = matches.length ? 'block' : 'none';
-    }
-
-    function searchArtisans(searchTerm) {
-      if (searchTerm.trim() === '') return;
-      
-      const displayTerm = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1).replace('-', ' ');
-      if (!searchHistory.includes(displayTerm)) {
-        searchHistory.unshift(displayTerm);
-        if (searchHistory.length > 5) {
-          searchHistory.pop();
-        }
-        localStorage.setItem('artisanSearchHistory', JSON.stringify(searchHistory));
-      }
-      
-      document.getElementById('suggestionsBox').style.display = 'none';
-      const searchId = displayTerm.toLowerCase().replace(' ', '-');
-      showArtisanList(searchId);
-    }
-
-    function removeFromHistory(term) {
-      searchHistory = searchHistory.filter(item => item !== term);
-      localStorage.setItem('artisanSearchHistory', JSON.stringify(searchHistory));
-      showSearchSuggestions('');
-    }
-
-    // Original navigation functions
-    function showHomePage() {
-      hideAllPages();
-      document.getElementById('home-page').style.display = 'block';
-      updateActiveTab('home');
-    }
-
-    function goBackToHome() {
-      showHomePage();
-    }
-
-    function goBackToList() {
-      hideAllPages();
-      document.getElementById('artisan-list-page').style.display = 'block';
-      updateActiveTab('home');
-    }
-
-    function showMessagesPage() {
-      if (!isLoggedIn) {
-        showAuthModal('login');
-        return;
-      }
-      
-      hideAllPages();
-      document.getElementById('messages-page').style.display = 'block';
-      updateActiveTab('messages');
-      loadMessagesList();
-    }
-
-    function showWallet() {
-      if (!isLoggedIn) {
-        showAuthModal('login');
-        return;
-      }
-      alert("Wallet page would appear here");
-      updateActiveTab('wallet');
-    }
-
-    function showArtisanList(serviceType) {
-      currentServiceType = serviceType;
-      hideAllPages();
-      document.getElementById('artisan-list-page').style.display = 'block';
-      
-      const container = document.getElementById('artisan-list-container');
-      container.innerHTML = '';
-      
-      const names = [
-        "Adebayo Ogunlesi",
-        "Chioma Eze",
-        "Emeka Okoro",
-        "Funke Adebayo",
-        "Oluwaseun Ade"
-      ];
-      
-      for (let i = 0; i < 5; i++) {
-        const artisan = {
-          id: i+1,
-          name: names[i],
-          rating: (Math.random() * 1 + 4).toFixed(1),
-          distance: (Math.random() * 5 + 0.5).toFixed(1) + "km",
-          pic: `https://randomuser.me/api/portraits/${i % 2 === 0 ? 'men' : 'women'}/${i+30}.jpg`,
-          service: serviceType
-        };
+      cacheDOM() {
+        // Navigation buttons
+        this.backToHomeBtn = document.getElementById('backToHome');
+        this.backToListBtn = document.getElementById('backToList');
+        this.backToHomeFromMessagesBtn = document.getElementById('backToHomeFromMessages');
+        this.backToHomeFromWalletBtn = document.getElementById('backToHomeFromWallet');
+        this.backFromChatBtn = document.getElementById('backFromChat');
+        this.closeAboutPageBtn = document.getElementById('closeAboutPage');
+        this.closeSettingsPageBtn = document.getElementById('closeSettingsPage');
         
-        const item = document.createElement('div');
-        item.className = 'artisan-item';
-        item.onclick = () => showArtisanProfile(artisan);
+        // Profile and auth elements
+        this.profileIcon = document.getElementById('profileIcon');
+        this.profileMenu = document.getElementById('profileMenu');
         
-        item.innerHTML = `
-          <img src="${artisan.pic}" class="artisan-item-pic">
-          <div class="artisan-item-info">
-            <div class="artisan-item-name">${artisan.name}</div>
-            <div class="artisan-item-rating">⭐ ${artisan.rating}</div>
-            <div class="artisan-item-distance">${artisan.distance} away</div>
-          </div>
-          <i class="fas fa-chevron-right"></i>
-        `;
+        // Chat elements
+        this.sendMessageBtn = document.getElementById('sendMessageBtn');
+        this.chatInputField = document.getElementById('chat-input-field');
+        this.fileInput = document.getElementById('fileInput');
         
-        container.appendChild(item);
-      }
-    }
-
-    function showArtisanProfile(artisan) {
-      currentArtisan = artisan;
-      hideAllPages();
-      document.getElementById('artisan-profile-page').style.display = 'block';
-      
-      document.querySelector('.profile-pic').src = artisan.pic;
-      document.querySelector('.profile-info h2').textContent = artisan.name;
-      document.querySelector('.profile-info p').textContent = artisan.service.charAt(0).toUpperCase() + artisan.service.slice(1).replace('-', ' ');
-      document.querySelector('.rating').textContent = `⭐ ${artisan.rating} (${Math.floor(Math.random()*100)+50} reviews)`;
-    }
-
-    function updateActiveTab(tab) {
-      document.querySelectorAll('.tab-button').forEach(btn => {
-        btn.classList.remove('active');
-      });
-      const tabs = ['home', 'messages', 'wallet'];
-      document.querySelector(`.tab-button:nth-child(${tabs.indexOf(tab)+1})`).classList.add('active');
-    }
-
-    function useCurrentLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          () => alert("Location detected! Using your current location."),
-          () => alert("Could not detect location. Please select manually.")
-        );
-      } else {
-        alert("Geolocation not supported. Please select manually.");
-      }
-    }
-
-    function startChat() {
-      if (!isLoggedIn) {
-        showAuthModal('login');
-        return;
+        // Tab buttons
+        this.homeTab = document.getElementById('homeTab');
+        this.messagesTab = document.getElementById('messagesTab');
+        this.walletTab = document.getElementById('walletTab');
+        
+        // Artisan action buttons
+        this.messageArtisanBtn = document.getElementById('messageArtisan');
+        this.callArtisanBtn = document.getElementById('callArtisan');
+        this.bookArtisanBtn = document.getElementById('bookArtisan');
+        
+        // Tab buttons in profile
+        this.aboutTabBtn = document.getElementById('aboutTabBtn');
+        this.portfolioTabBtn = document.getElementById('portfolioTabBtn');
+        this.reviewsTabBtn = document.getElementById('reviewsTabBtn');
+        
+        // Theme toggle
+        this.themeToggle = document.getElementById('themeToggle');
+        this.themeStatus = document.getElementById('themeStatus');
       }
       
-      if (currentArtisan) {
-        openChat(currentArtisan);
-      } else {
-        alert("Chat feature would open here");
-      }
-    }
-
-    function startCall() {
-      if (!isLoggedIn) {
-        showAuthModal('login');
-        return;
-      }
-      
-      if (currentArtisan) {
-        alert(`Calling ${currentArtisan.name}`);
-      } else {
-        alert("Call feature would open here");
-      }
-    }
-
-    // Chat functions
-    function openChat(artisan) {
-      currentChatId = `chat_${artisan.id}`;
-      
-      // Initialize chat if it doesn't exist
-      if (!messages[currentChatId]) {
-        messages[currentChatId] = {
-          artisan: artisan,
-          messages: []
-        };
-        saveMessages();
-      }
-      
-      // Update chat header
-      document.getElementById('chat-artisan-name').textContent = artisan.name;
-      document.getElementById('chat-artisan-profession').textContent = 
-        artisan.service.charAt(0).toUpperCase() + artisan.service.slice(1).replace('-', ' ');
-      document.querySelector('#chat-page .profile-pic').src = artisan.pic;
-      
-      // Show chat page
-      hideAllPages();
-      document.getElementById('chat-page').style.display = 'block';
-      
-      // Load messages
-      loadMessages();
-    }
-
-    function loadMessages() {
-      const chatMessages = document.getElementById('chat-messages');
-      chatMessages.innerHTML = '';
-      
-      if (messages[currentChatId] && messages[currentChatId].messages.length > 0) {
-        messages[currentChatId].messages.forEach(msg => {
-          addMessageToChat(msg.sender, msg.text, msg.time, false);
+      setupEventListeners() {
+        // Navigation buttons
+        this.backToHomeBtn.addEventListener('click', () => this.showHomePage());
+        this.backToListBtn.addEventListener('click', () => this.goBackToList());
+        this.backToHomeFromMessagesBtn.addEventListener('click', () => this.showHomePage());
+        this.backToHomeFromWalletBtn.addEventListener('click', () => this.showHomePage());
+        this.backFromChatBtn.addEventListener('click', () => this.goBackFromChat());
+        this.closeAboutPageBtn.addEventListener('click', () => this.closeAboutPage());
+        this.closeSettingsPageBtn.addEventListener('click', () => this.closeSettingsPage());
+        
+        // Profile and auth
+        this.profileIcon.addEventListener('click', () => this.toggleProfileMenu());
+        
+        // Chat functionality
+        this.sendMessageBtn.addEventListener('click', () => this.sendMessage());
+        this.chatInputField.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') this.sendMessage();
         });
-      } else {
-        // Add welcome message if no messages exist
-        addMessageToChat('bot', `Hi there! You're now chatting with ${messages[currentChatId].artisan.name}. How can I help you today?`, new Date().toISOString(), false);
+        this.chatInputField.addEventListener('input', () => this.sendTypingIndicator());
+        this.fileInput.addEventListener('change', (e) => {
+          this.handleFileUpload(e.target.files[0]);
+        });
+        
+        // Tab navigation
+        this.homeTab.addEventListener('click', () => this.showHomePage());
+        this.messagesTab.addEventListener('click', () => this.showMessagesPage());
+        this.walletTab.addEventListener('click', () => this.showWalletPage());
+        
+        // Artisan action buttons
+        this.messageArtisanBtn.addEventListener('click', () => this.startChat());
+        this.callArtisanBtn.addEventListener('click', () => this.startCall());
+        this.bookArtisanBtn.addEventListener('click', () => this.showBookingModal());
+        
+        // Profile tabs
+        this.aboutTabBtn.addEventListener('click', () => this.switchProfileTab('about'));
+        this.portfolioTabBtn.addEventListener('click', () => this.switchProfileTab('portfolio'));
+        this.reviewsTabBtn.addEventListener('click', () => this.switchProfileTab('reviews'));
+        
+        // Search input with debounce
+        const searchInput = document.getElementById('searchArtisan');
+        const debounceSearch = this.debounce(this.showSearchSuggestions.bind(this), 300);
+        searchInput.addEventListener('input', (e) => debounceSearch(e.target.value));
+        searchInput.addEventListener('focus', () => this.showSearchSuggestions(searchInput.value));
+        
+        // Form submissions
+        document.getElementById('loginBtn').addEventListener('click', () => this.login());
+        document.getElementById('signupBtn').addEventListener('click', () => this.signup());
+        document.getElementById('switchToLogin').addEventListener('click', (e) => {
+          e.preventDefault();
+          this.switchAuthTab('login');
+        });
+        document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
+          e.preventDefault();
+          this.showForgotPasswordModal();
+        });
+        
+        // Modal buttons
+        document.getElementById('closeAuthModal').addEventListener('click', () => {
+          this.hideAuthModal();
+          this.showHomePage();
+        });
+        document.getElementById('closeBookingModal').addEventListener('click', () => this.hideModal('bookingModal'));
+        document.getElementById('closeAddMoneyModal').addEventListener('click', () => this.hideModal('addMoneyModal'));
+        document.getElementById('closeForgotPasswordModal').addEventListener('click', () => this.hideModal('forgotPasswordModal'));
+        document.getElementById('cancelBooking').addEventListener('click', () => this.hideModal('bookingModal'));
+        document.getElementById('confirmBooking').addEventListener('click', () => this.submitBooking());
+        document.getElementById('cancelAddMoney').addEventListener('click', () => this.hideModal('addMoneyModal'));
+        document.getElementById('processPayment').addEventListener('click', () => this.processPayment());
+        document.getElementById('cancelForgotPassword').addEventListener('click', () => this.hideModal('forgotPasswordModal'));
+        document.getElementById('sendResetLink').addEventListener('click', () => this.sendResetLink());
+        
+        // Wallet actions
+        document.getElementById('addMoneyBtn').addEventListener('click', () => this.showAddMoneyModal());
+        document.getElementById('sendMoneyBtn').addEventListener('click', () => this.showSendMoneyModal());
+        document.getElementById('withdrawBtn').addEventListener('click', () => this.showWithdrawModal());
+        document.getElementById('historyBtn').addEventListener('click', () => this.showTransactionHistory());
+        
+        // Filter reset
+        document.getElementById('resetFilters').addEventListener('click', () => this.resetFilters());
+        
+        // Location button
+        document.getElementById('useLocation').addEventListener('click', () => this.useCurrentLocation());
+        
+        // Theme toggle
+        this.themeToggle.addEventListener('change', () => this.toggleTheme());
+        
+        // Save settings
+        document.getElementById('saveSettings').addEventListener('click', () => {
+          this.showNotification('Settings saved');
+          localStorage.setItem('messageNotifications', document.getElementById('messageNotifications').checked);
+          localStorage.setItem('bookingNotifications', document.getElementById('bookingNotifications').checked);
+        });
       }
       
-      // Scroll to bottom
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    function sendMessage() {
-      const inputField = document.getElementById('chat-input-field');
-      const messageText = inputField.value.trim();
+      // Utility Functions
+      debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+          const context = this;
+          clearTimeout(timeout);
+          timeout = setTimeout(() => func.apply(context, args), wait);
+        };
+      }
       
-      if (messageText === '') return;
+      showNotification(message, duration = 3000) {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+        notification.classList.add('show');
+        
+        setTimeout(() => {
+          notification.classList.remove('show');
+        }, duration);
+      }
       
-      const timestamp = new Date().toISOString();
+      hideModal(modalId) {
+        document.getElementById(modalId).classList.remove('show');
+      }
       
-      // Add user message
-      addMessageToChat('user', messageText, timestamp, true);
-      inputField.value = '';
+      showModal(modalId) {
+        document.getElementById(modalId).classList.add('show');
+      }
       
-      // Simulate bot response after a short delay
-      setTimeout(() => {
-        const responses = [
-          "Thanks for your message! I'll get back to you soon.",
-          "I understand your request. Let me check my availability.",
-          "That's a great question! Let me think about the best solution.",
-          "I can help with that. What's your preferred time for the service?",
-          "Got it! Do you have any specific requirements?"
+      // Theme Functions
+      applyTheme() {
+        if (this.darkMode) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          this.themeToggle.checked = true;
+          this.themeStatus.textContent = 'On';
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+          this.themeToggle.checked = false;
+          this.themeStatus.textContent = 'Off';
+        }
+      }
+      
+      toggleTheme() {
+        this.darkMode = !this.darkMode;
+        localStorage.setItem('darkMode', this.darkMode);
+        this.applyTheme();
+      }
+      
+      // Page Navigation
+      hideAllPages() {
+        document.getElementById('home-page').style.display = 'none';
+        document.getElementById('artisan-list-page').style.display = 'none';
+        document.getElementById('artisan-profile-page').style.display = 'none';
+        document.getElementById('messages-page').style.display = 'none';
+        document.getElementById('wallet-page').style.display = 'none';
+        document.getElementById('chat-page').style.display = 'none';
+        document.getElementById('about-page').style.display = 'none';
+        document.getElementById('settings-page').style.display = 'none';
+      }
+      
+      showHomePage() {
+        this.hideAllPages();
+        document.getElementById('home-page').style.display = 'block';
+        this.updateActiveTab('home');
+      }
+      
+      showMessagesPage() {
+        if (!this.isLoggedIn) {
+          this.showAuthModal('login');
+          return;
+        }
+        
+        this.hideAllPages();
+        document.getElementById('messages-page').style.display = 'block';
+        this.updateActiveTab('messages');
+        this.loadMessagesList();
+      }
+      
+      showWalletPage() {
+        if (!this.isLoggedIn) {
+          this.showAuthModal('login');
+          return;
+        }
+        
+        this.hideAllPages();
+        document.getElementById('wallet-page').style.display = 'block';
+        this.updateActiveTab('wallet');
+        this.loadWalletData();
+      }
+      
+      showAboutPage() {
+        this.hideAllPages();
+        document.getElementById('about-page').style.display = 'block';
+        this.profileMenu.classList.remove('show');
+      }
+      
+      closeAboutPage() {
+        this.hideAllPages();
+        this.showHomePage();
+      }
+      
+      showSettingsPage() {
+        this.hideAllPages();
+        document.getElementById('settings-page').style.display = 'block';
+        this.profileMenu.classList.remove('show');
+      }
+      
+      closeSettingsPage() {
+        this.hideAllPages();
+        this.showHomePage();
+      }
+      
+      updateActiveTab(tab) {
+        document.querySelectorAll('.tab-button').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        const tabs = ['home', 'messages', 'wallet'];
+        document.querySelector(`.tab-button:nth-child(${tabs.indexOf(tab)+1})`).classList.add('active');
+      }
+      
+      // Artisan Categories and Search
+      loadArtisanCategories() {
+        const categories = [
+          { id: 'electrician', name: 'Electrician', icon: 'bolt', color: '#FFD700' },
+          { id: 'plumber', name: 'Plumber', icon: 'faucet', color: '#1E90FF' },
+          { id: 'carpenter', name: 'Carpenter', icon: 'hammer', color: '#8B4513' },
+          { id: 'painter', name: 'Painter', icon: 'paint-roller', color: '#9370DB' },
+          { id: 'tailor', name: 'Tailor', icon: 'tshirt', color: '#FF69B4' },
+          { id: 'hairdresser', name: 'Hair Stylist', icon: 'cut', color: '#FF6347' },
+          { id: 'mechanic', name: 'Mechanic', icon: 'car', color: '#4682B4' },
+          { id: 'cleaner', name: 'Cleaner', icon: 'broom', color: '#A0522D' },
+          { id: 'welder', name: 'Welder', icon: 'tools', color: '#696969' },
+          { id: 'bricklayer', name: 'Bricklayer', icon: 'home', color: '#CD853F' },
+          { id: 'housekeeper', name: 'Housekeeper', icon: 'hotel', color: '#20B2AA' },
+          { id: 'glazier', name: 'Glazier', icon: 'window-maximize', color: '#87CEEB' },
+          { id: 'ac-technician', name: 'AC Technician', icon: 'snowflake', color: '#ADD8E6' },
+          { id: 'refrigerator', name: 'Fridge Tech', icon: 'ice-cream', color: '#00BFFF' },
+          { id: 'solar', name: 'Solar Installer', icon: 'solar-panel', color: '#FFA500' },
+          { id: 'cctv', name: 'CCTV Installer', icon: 'video', color: '#000080' },
+          { id: 'fence', name: 'Electric Fence', icon: 'shield-alt', color: '#32CD32' },
+          { id: 'inverter', name: 'Inverter Tech', icon: 'battery-full', color: '#228B22' },
+          { id: 'borehole', name: 'Borehole Driller', icon: 'water', color: '#4169E1' },
+          { id: 'tiler', name: 'Tiler', icon: 'border-style', color: '#DAA520' }
         ];
-        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-        addMessageToChat('bot', randomResponse, new Date().toISOString(), true);
-      }, 1000 + Math.random() * 2000);
-    }
-
-    function addMessageToChat(sender, text, timestamp, saveToStorage) {
-      const chatMessages = document.getElementById('chat-messages');
-      const messageTime = new Date(timestamp);
-      const timeString = messageTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        
+        const grid = document.getElementById('artisanGrid');
+        grid.innerHTML = '';
+        
+        categories.forEach(category => {
+          const card = document.createElement('div');
+          card.className = 'artisan-card';
+          card.setAttribute('role', 'button');
+          card.setAttribute('tabindex', '0');
+          card.setAttribute('aria-label', `Search for ${category.name}`);
+          card.addEventListener('click', () => this.showArtisanList(category.id));
+          card.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') this.showArtisanList(category.id);
+          });
+          
+          card.innerHTML = `
+            <div class="artisan-icon" style="color: ${category.color}">
+              <i class="fas fa-${category.icon}"></i>
+            </div>
+            <div class="artisan-name">${category.name}</div>
+          `;
+          
+          grid.appendChild(card);
+        });
+      }
       
-      const messageDiv = document.createElement('div');
-      messageDiv.className = `message ${sender === 'user' ? 'sent' : 'received'}`;
-      
-      messageDiv.innerHTML = `
-        <div class="message-content">${text}</div>
-        <div class="message-time">${timeString}</div>
-      `;
-      
-      chatMessages.appendChild(messageDiv);
-      
-      // Scroll to bottom
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-      
-      // Save to storage if needed
-      if (saveToStorage && currentChatId) {
-        if (!messages[currentChatId]) {
-          messages[currentChatId] = {
-            artisan: currentArtisan,
-            messages: []
-          };
+      showSearchSuggestions(searchTerm) {
+        const suggestionsBox = document.getElementById('suggestionsBox');
+        suggestionsBox.innerHTML = '';
+        
+        if (!searchTerm) {
+          if (this.searchHistory.length > 0) {
+            const historyTitle = document.createElement('div');
+            historyTitle.className = 'search-history';
+            historyTitle.textContent = 'Recent searches:';
+            suggestionsBox.appendChild(historyTitle);
+            
+            this.searchHistory.forEach(term => {
+              const item = document.createElement('div');
+              item.className = 'history-item';
+              item.setAttribute('role', 'option');
+              item.innerHTML = `
+                <span>${term}</span>
+                <i class="fas fa-times" aria-label="Remove from history"></i>
+              `;
+              item.querySelector('i').addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.removeFromHistory(term);
+              });
+              item.addEventListener('click', () => {
+                document.getElementById('searchArtisan').value = term;
+                this.searchArtisans(term);
+              });
+              suggestionsBox.appendChild(item);
+            });
+          }
+          suggestionsBox.style.display = 'block';
+          return;
         }
         
-        messages[currentChatId].messages.push({
-          sender: sender,
-          text: text,
-          time: timestamp
+        const categories = [
+          'electrician', 'plumber', 'carpenter', 'painter', 'tailor',
+          'hairdresser', 'mechanic', 'cleaner', 'welder', 'bricklayer',
+          'housekeeper', 'glazier', 'ac-technician', 'refrigerator', 
+          'solar', 'cctv', 'fence', 'inverter', 'borehole', 'tiler'
+        ];
+        
+        const matches = categories.filter(type => 
+          type.toLowerCase().includes(searchTerm.toLowerCase()))
+          .slice(0, 5);
+        
+        matches.forEach(match => {
+          const item = document.createElement('div');
+          item.className = 'suggestion-item';
+          item.setAttribute('role', 'option');
+          const displayText = match.charAt(0).toUpperCase() + match.slice(1).replace('-', ' ');
+          item.textContent = displayText;
+          item.addEventListener('click', () => {
+            document.getElementById('searchArtisan').value = displayText;
+            this.searchArtisans(match);
+          });
+          suggestionsBox.appendChild(item);
         });
         
-        saveMessages();
-        loadMessagesList();
-      }
-    }
-
-    function saveMessages() {
-      localStorage.setItem('artisanMessages', JSON.stringify(messages));
-    }
-
-    function goBackFromChat() {
-      if (currentArtisan) {
-        showArtisanProfile(currentArtisan);
-      } else {
-        showMessagesPage();
-      }
-    }
-
-    function loadMessagesList() {
-      const messagesList = document.getElementById('messages-list');
-      messagesList.innerHTML = '';
-      
-      if (Object.keys(messages).length === 0) {
-        messagesList.innerHTML = '<p style="text-align: center; margin-top: 20px; color: #666;">No messages yet</p>';
-        return;
+        suggestionsBox.style.display = matches.length ? 'block' : 'none';
       }
       
-      Object.entries(messages).forEach(([chatId, chatData]) => {
-        const lastMessage = chatData.messages[chatData.messages.length - 1];
-        const messageTime = new Date(lastMessage.time);
-        const timeString = messageTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        const dateString = messageTime.toLocaleDateString();
+      searchArtisans(searchTerm) {
+        if (searchTerm.trim() === '') return;
         
-        const messageItem = document.createElement('div');
-        messageItem.className = 'message-item';
-        messageItem.onclick = () => {
-          currentArtisan = chatData.artisan;
-          openChat(chatData.artisan);
+        const displayTerm = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1).replace('-', ' ');
+        if (!this.searchHistory.includes(displayTerm)) {
+          this.searchHistory.unshift(displayTerm);
+          if (this.searchHistory.length > 5) {
+            this.searchHistory.pop();
+          }
+          localStorage.setItem('artisanSearchHistory', JSON.stringify(this.searchHistory));
+        }
+        
+        document.getElementById('suggestionsBox').style.display = 'none';
+        const searchId = displayTerm.toLowerCase().replace(' ', '-');
+        this.showArtisanList(searchId);
+      }
+      
+      removeFromHistory(term) {
+        this.searchHistory = this.searchHistory.filter(item => item !== term);
+        localStorage.setItem('artisanSearchHistory', JSON.stringify(this.searchHistory));
+        this.showSearchSuggestions('');
+      }
+      
+      toggleFilters() {
+        const filterContainer = document.getElementById('filterContainer');
+        filterContainer.style.display = filterContainer.style.display === 'none' ? 'block' : 'none';
+      }
+      
+      resetFilters() {
+        document.getElementById('ratingFilter').value = '0';
+        document.getElementById('distanceFilter').value = '0';
+        document.getElementById('priceFilter').value = '0';
+        // You would typically re-filter the artisan list here
+      }
+      
+      // Artisan List and Profile
+      showArtisanList(serviceType) {
+        this.currentServiceType = serviceType;
+        this.hideAllPages();
+        document.getElementById('artisan-list-page').style.display = 'block';
+        
+        const container = document.getElementById('artisan-list-container');
+        container.innerHTML = '';
+        
+        // In a real app, this would come from an API
+        const mockArtisans = this.generateMockArtisans(serviceType);
+        
+        mockArtisans.forEach(artisan => {
+          const item = document.createElement('div');
+          item.className = 'artisan-item';
+          item.setAttribute('role', 'button');
+          item.setAttribute('tabindex', '0');
+          item.addEventListener('click', () => this.showArtisanProfile(artisan));
+          item.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') this.showArtisanProfile(artisan);
+          });
+          
+          item.innerHTML = `
+            <img src="${artisan.pic}" class="artisan-item-pic" alt="${artisan.name}">
+            <div class="artisan-item-info">
+              <div class="artisan-item-name">${artisan.name}</div>
+              <div class="artisan-item-rating">
+                <span>⭐ ${artisan.rating}</span>
+                <span>(${artisan.reviews} reviews)</span>
+              </div>
+              <div class="artisan-item-distance">${artisan.distance} away</div>
+            </div>
+            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+          `;
+          
+          container.appendChild(item);
+        });
+      }
+      
+      generateMockArtisans(serviceType) {
+        const names = [
+          "Adebayo Ogunlesi", "Chioma Eze", "Emeka Okoro", 
+          "Funke Adebayo", "Oluwaseun Ade", "Bola Ahmed", 
+          "Yusuf Mohammed", "Amina Ibrahim", "Chinedu Nwankwo",
+          "Grace Okafor"
+        ];
+        
+        const services = {
+          electrician: "Electrician",
+          plumber: "Plumber",
+          carpenter: "Carpenter",
+          painter: "Painter",
+          tailor: "Tailor",
+          hairdresser: "Hair Stylist",
+          mechanic: "Mechanic",
+          cleaner: "Cleaner",
+          welder: "Welder",
+          bricklayer: "Bricklayer",
+          housekeeper: "Housekeeper",
+          glazier: "Glazier",
+          "ac-technician": "AC Technician",
+          refrigerator: "Fridge Technician",
+          solar: "Solar Installer",
+          cctv: "CCTV Installer",
+          fence: "Electric Fence Installer",
+          inverter: "Inverter Technician",
+          borehole: "Borehole Driller",
+          tiler: "Tiler"
         };
         
-        messageItem.innerHTML = `
-          <img src="${chatData.artisan.pic}" class="message-item-pic">
-          <div class="message-item-info">
-            <div class="message-item-name">${chatData.artisan.name}</div>
-            <div class="message-item-preview">${lastMessage.text}</div>
-          </div>
-          <div class="message-item-time">
-            <div>${dateString}</div>
-            <div>${timeString}</div>
-          </div>
+        // Sample reviews data
+        const reviewComments = [
+          "Excellent work! Very professional and completed the job on time.",
+          "Good service, but arrived a bit late. Quality of work was satisfactory.",
+          "Highly recommended! Did an amazing job and was very courteous.",
+          "Fair pricing and good quality work. Will hire again.",
+          "Exceptional service. Went above and beyond my expectations.",
+          "Average work. Could improve on punctuality.",
+          "Very skilled artisan. Solved my problem quickly and efficiently.",
+          "Not the best experience. Work was okay but communication was poor.",
+          "Perfect job! Will definitely call again for future projects.",
+          "Good value for money. Satisfied with the service provided."
+        ];
+        
+        return names.map((name, index) => {
+          const gender = index % 2 === 0 ? 'men' : 'women';
+          const picId = index + 30;
+          
+          // Generate 5-10 reviews per artisan
+          const reviewsCount = Math.floor(Math.random() * 6) + 5;
+          const reviewsList = Array.from({length: reviewsCount}, (_, i) => {
+            const rating = i % 2 === 0 ? 
+              (Math.random() > 0.5 ? 5 : 4) : 
+              (Math.random() > 0.7 ? 3 : (Math.random() > 0.5 ? 4 : 5));
+            
+            return {
+              id: i + 1,
+              customer: `Customer ${i + 1}`,
+              rating: rating,
+              comment: reviewComments[Math.floor(Math.random() * reviewComments.length)],
+              date: new Date(Date.now() - Math.floor(Math.random() * 30) * 24 * 60 * 60 * 1000).toISOString()
+            };
+          });
+          
+          // Calculate average rating
+          const totalRating = reviewsList.reduce((sum, review) => sum + review.rating, 0);
+          const averageRating = (totalRating / reviewsCount).toFixed(1);
+          
+          return {
+            id: index + 1,
+            name: name,
+            service: serviceType,
+            serviceName: services[serviceType],
+            rating: averageRating,
+            reviews: reviewsCount,
+            distance: (Math.random() * 5 + 0.5).toFixed(1) + "km",
+            pic: `https://randomuser.me/api/portraits/${gender}/${picId}.jpg`,
+            bio: `Professional ${services[serviceType]} with ${Math.floor(Math.random() * 10) + 5} years of experience. Specialized in residential and commercial services.`,
+            experience: `${Math.floor(Math.random() * 10) + 5} years`,
+            languages: ["English", Math.random() > 0.5 ? "Yoruba" : "Hausa"],
+            portfolio: Array.from({length: 5}, (_, i) => ({
+              id: i + 1,
+              url: `https://source.unsplash.com/random/300x300/?${serviceType},${i}`
+            })),
+            reviewsList: reviewsList
+          };
+        });
+      }
+      
+      showArtisanProfile(artisan) {
+        this.currentArtisan = artisan;
+        this.hideAllPages();
+        document.getElementById('artisan-profile-page').style.display = 'block';
+        
+        // Update profile header
+        document.getElementById('artisanProfilePic').src = artisan.pic;
+        document.getElementById('artisanName').textContent = artisan.name;
+        document.getElementById('artisanProfession').textContent = artisan.serviceName;
+        document.getElementById('artisanRating').innerHTML = `
+          ⭐ ${artisan.rating} <span aria-label="${artisan.reviews} reviews">(${artisan.reviews})</span>
         `;
         
-        messagesList.appendChild(messageItem);
-      });
+        // Update about tab
+        document.getElementById('artisanBio').innerHTML = `
+          <p>${artisan.bio}</p>
+        `;
+        
+        document.getElementById('artisanDetails').innerHTML = `
+          <p><strong>Experience:</strong> ${artisan.experience}</p>
+          <p><strong>Languages:</strong> ${artisan.languages.join(", ")}</p>
+          <p><strong>Availability:</strong> ${Math.random() > 0.5 ? "Available now" : "Available next week"}</p>
+        `;
+        
+        // Update portfolio tab
+        const portfolioGallery = document.getElementById('portfolioGallery');
+        portfolioGallery.innerHTML = '';
+        
+        artisan.portfolio.forEach(item => {
+          const portfolioItem = document.createElement('div');
+          portfolioItem.className = 'portfolio-item';
+          portfolioItem.innerHTML = `
+            <img src="${item.url}" alt="Portfolio item ${item.id}" loading="lazy">
+          `;
+          portfolioGallery.appendChild(portfolioItem);
+        });
+        
+        // Update reviews tab
+        const reviewsContainer = document.getElementById('artisanReviews');
+        reviewsContainer.innerHTML = '';
+        
+        artisan.reviewsList.forEach(review => {
+          const reviewElement = document.createElement('div');
+          reviewElement.className = 'review';
+          reviewElement.innerHTML = `
+            <div class="reviewer">${review.customer}</div>
+            <div class="stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</div>
+            <div class="comment">${review.comment}</div>
+            <div class="review-date" style="font-size: 0.8rem; color: var(--dark-gray); margin-top: 5px;">
+              ${new Date(review.date).toLocaleDateString()}
+            </div>
+          `;
+          reviewsContainer.appendChild(reviewElement);
+        });
+        
+        // Set default tab
+        this.switchProfileTab('about');
+      }
+      
+      switchProfileTab(tabId) {
+        document.querySelectorAll('.profile-tab').forEach(tab => {
+          tab.classList.remove('active');
+        });
+        
+        document.querySelectorAll('.profile-tab-content').forEach(content => {
+          content.classList.remove('active');
+        });
+        
+        document.getElementById(`${tabId}TabBtn`).classList.add('active');
+        document.getElementById(`${tabId}Tab`).classList.add('active');
+      }
+      
+      // Booking System
+      showBookingModal() {
+        if (!this.isLoggedIn) {
+          this.showAuthModal('login');
+          return;
+        }
+        
+        document.getElementById('bookingService').value = this.currentArtisan.serviceName;
+        document.getElementById('bookingArtisan').value = this.currentArtisan.name;
+        
+        // Set default date to tomorrow
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        document.getElementById('bookingDate').valueAsDate = tomorrow;
+        
+        this.showModal('bookingModal');
+      }
+      
+      submitBooking() {
+        const date = document.getElementById('bookingDate').value;
+        const time = document.getElementById('bookingTime').value;
+        const address = document.getElementById('bookingAddress').value;
+        const notes = document.getElementById('bookingNotes').value;
+        
+        if (!date || !time || !address) {
+          this.showNotification('Please fill in all required fields');
+          return;
+        }
+        
+        // In a real app, this would be sent to the backend
+        const booking = {
+          artisanId: this.currentArtisan.id,
+          artisanName: this.currentArtisan.name,
+          service: this.currentArtisan.serviceName,
+          date: date,
+          time: time,
+          address: address,
+          notes: notes,
+          status: 'pending',
+          createdAt: new Date().toISOString()
+        };
+        
+        // Save to local storage (in a real app, this would be an API call)
+        let bookings = JSON.parse(localStorage.getItem('userBookings')) || [];
+        bookings.push(booking);
+        localStorage.setItem('userBookings', JSON.stringify(bookings));
+        
+        this.hideModal('bookingModal');
+        this.showNotification('Booking request sent successfully!');
+        
+        // Notify artisan (in a real app, this would be a push notification)
+        this.addMessageToChat('bot', 
+          `You have a new booking request for ${booking.date} at ${booking.time}. Address: ${booking.address}`, 
+          new Date().toISOString(), true);
+      }
+      
+      // Authentication System
+      toggleProfileMenu() {
+        const menu = this.profileMenu;
+        const isExpanded = menu.classList.toggle('show');
+        
+        // Update aria-expanded attribute
+        this.profileIcon.setAttribute('aria-expanded', isExpanded);
+      }
+      
+      updateAuthUI() {
+        const profileMenu = this.profileMenu;
+        
+        if (this.isLoggedIn && this.userData) {
+          profileMenu.innerHTML = `
+            <div class="profile-menu-item" id="logoutBtn">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Logout</span>
+            </div>
+            <div class="profile-menu-item" id="settingsBtn">
+              <i class="fas fa-cog"></i>
+              <span>Settings</span>
+            </div>
+            <div class="profile-menu-item" id="aboutBtn">
+              <i class="fas fa-info-circle"></i>
+              <span>About</span>
+            </div>
+          `;
+          
+          // Add event listeners to new menu items
+          document.getElementById('logoutBtn').addEventListener('click', () => this.logout());
+          document.getElementById('settingsBtn').addEventListener('click', () => this.showSettingsPage());
+          document.getElementById('aboutBtn').addEventListener('click', () => this.showAboutPage());
+        } else {
+          profileMenu.innerHTML = `
+            <div class="profile-menu-item" id="loginMenuBtn">
+              <i class="fas fa-sign-in-alt"></i>
+              <span>Login</span>
+            </div>
+            <div class="profile-menu-item" id="signupMenuBtn">
+              <i class="fas fa-user-plus"></i>
+              <span>Sign Up</span>
+            </div>
+            <div class="profile-menu-item" id="settingsBtn">
+              <i class="fas fa-cog"></i>
+              <span>Settings</span>
+            </div>
+            <div class="profile-menu-item" id="aboutBtn">
+              <i class="fas fa-info-circle"></i>
+              <span>About</span>
+            </div>
+          `;
+          
+          // Add event listeners to new menu items
+          document.getElementById('loginMenuBtn').addEventListener('click', () => this.showAuthModal('login'));
+          document.getElementById('signupMenuBtn').addEventListener('click', () => this.showAuthModal('signup'));
+          document.getElementById('settingsBtn').addEventListener('click', () => this.showSettingsPage());
+          document.getElementById('aboutBtn').addEventListener('click', () => this.showAboutPage());
+        }
+      }
+      
+      showAuthModal(type) {
+        document.getElementById('authModal').classList.add('show');
+        this.profileMenu.classList.remove('show');
+        this.switchAuthTab(type);
+      }
+      
+      hideAuthModal() {
+        document.getElementById('authModal').classList.remove('show');
+      }
+      
+      switchAuthTab(type) {
+        if (type === 'login') {
+          document.getElementById('loginTab').classList.add('active');
+          document.getElementById('signupTab').classList.remove('active');
+          document.getElementById('loginForm').classList.add('active');
+          document.getElementById('signupForm').classList.remove('active');
+          document.getElementById('authHeader').textContent = 'Login';
+          
+          // Update ARIA attributes
+          document.getElementById('loginTab').setAttribute('aria-selected', 'true');
+          document.getElementById('signupTab').setAttribute('aria-selected', 'false');
+        } else {
+          document.getElementById('loginTab').classList.remove('active');
+          document.getElementById('signupTab').classList.add('active');
+          document.getElementById('loginForm').classList.remove('active');
+          document.getElementById('signupForm').classList.add('active');
+          document.getElementById('authHeader').textContent = 'Sign Up';
+          
+          // Update ARIA attributes
+          document.getElementById('loginTab').setAttribute('aria-selected', 'false');
+          document.getElementById('signupTab').setAttribute('aria-selected', 'true');
+        }
+      }
+      
+      validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+      }
+      
+      validatePassword(password) {
+        // At least 8 characters, 1 number
+        return password.length >= 8 && /\d/.test(password);
+      }
+      
+      validatePhone(phone) {
+        // Simple Nigerian phone validation
+        return /^[0]?[789]\d{9}$/.test(phone);
+      }
+      
+      login() {
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        const emailError = document.getElementById('loginEmailError');
+        const passwordError = document.getElementById('loginPasswordError');
+        
+        // Reset errors
+        emailError.style.display = 'none';
+        passwordError.style.display = 'none';
+        
+        // Validate inputs
+        let isValid = true;
+        
+        if (!email) {
+          emailError.textContent = 'Email is required';
+          emailError.style.display = 'block';
+          isValid = false;
+        } else if (!this.validateEmail(email)) {
+          emailError.textContent = 'Please enter a valid email';
+          emailError.style.display = 'block';
+          isValid = false;
+        }
+        
+        if (!password) {
+          passwordError.textContent = 'Password is required';
+          passwordError.style.display = 'block';
+          isValid = false;
+        } else if (password.length < 6) {
+          passwordError.textContent = 'Password must be at least 6 characters';
+          passwordError.style.display = 'block';
+          isValid = false;
+        }
+        
+        if (!isValid) return;
+        
+        // In a real app, you would call your backend API here
+        // This is a mock implementation
+        
+        // Check if user exists in localStorage
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const user = users.find(u => u.email === email);
+        
+        if (!user) {
+          emailError.textContent = 'No account found with this email';
+          emailError.style.display = 'block';
+          return;
+        }
+        
+        // In a real app, you would hash the password and compare
+        if (user.password !== password) {
+          passwordError.textContent = 'Incorrect password';
+          passwordError.style.display = 'block';
+          return;
+        }
+        
+        // Login successful
+        this.isLoggedIn = true;
+        this.userData = {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          phone: user.phone
+        };
+        
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('userData', JSON.stringify(this.userData));
+        
+        this.hideAuthModal();
+        this.updateAuthUI();
+        this.showNotification('Login successful!');
+      }
+      
+      signup() {
+        const name = document.getElementById('signupName').value;
+        const email = document.getElementById('signupEmail').value;
+        const phone = document.getElementById('signupPhone').value;
+        const password = document.getElementById('signupPassword').value;
+        const confirm = document.getElementById('signupConfirm').value;
+        
+        const nameError = document.getElementById('signupNameError');
+        const emailError = document.getElementById('signupEmailError');
+        const phoneError = document.getElementById('signupPhoneError');
+        const passwordError = document.getElementById('signupPasswordError');
+        const confirmError = document.getElementById('signupConfirmError');
+        
+        // Reset errors
+        nameError.style.display = 'none';
+        emailError.style.display = 'none';
+        phoneError.style.display = 'none';
+        passwordError.style.display = 'none';
+        confirmError.style.display = 'none';
+        
+        // Validate inputs
+        let isValid = true;
+        
+        if (!name) {
+          nameError.textContent = 'Name is required';
+          nameError.style.display = 'block';
+          isValid = false;
+        }
+        
+        if (!email) {
+          emailError.textContent = 'Email is required';
+          emailError.style.display = 'block';
+          isValid = false;
+        } else if (!this.validateEmail(email)) {
+          emailError.textContent = 'Please enter a valid email';
+          emailError.style.display = 'block';
+          isValid = false;
+        }
+        
+        if (!phone) {
+          phoneError.textContent = 'Phone number is required';
+          phoneError.style.display = 'block';
+          isValid = false;
+        } else if (!this.validatePhone(phone)) {
+          phoneError.textContent = 'Please enter a valid Nigerian phone number';
+          phoneError.style.display = 'block';
+          isValid = false;
+        }
+        
+        if (!password) {
+          passwordError.textContent = 'Password is required';
+          passwordError.style.display = 'block';
+          isValid = false;
+        } else if (!this.validatePassword(password)) {
+          passwordError.textContent = 'Password must be at least 8 characters with 1 number';
+          passwordError.style.display = 'block';
+          isValid = false;
+        }
+        
+        if (!confirm) {
+          confirmError.textContent = 'Please confirm your password';
+          confirmError.style.display = 'block';
+          isValid = false;
+        } else if (password !== confirm) {
+          confirmError.textContent = 'Passwords do not match';
+          confirmError.style.display = 'block';
+          isValid = false;
+        }
+        
+        if (!isValid) return;
+        
+        // In a real app, you would call your backend API here
+        // This is a mock implementation
+        
+        // Check if email already exists
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        if (users.some(u => u.email === email)) {
+          emailError.textContent = 'Email already registered';
+          emailError.style.display = 'block';
+          return;
+        }
+        
+        // Create new user
+        const newUser = {
+          id: Date.now().toString(),
+          name: name,
+          email: email,
+          phone: phone,
+          password: password, // In a real app, this would be hashed
+          createdAt: new Date().toISOString()
+        };
+        
+        users.push(newUser);
+        localStorage.setItem('users', JSON.stringify(users));
+        
+        // Login the new user
+        this.isLoggedIn = true;
+        this.userData = {
+          id: newUser.id,
+          name: newUser.name,
+          email: newUser.email,
+          phone: newUser.phone
+        };
+        
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('userData', JSON.stringify(this.userData));
+        
+        this.hideAuthModal();
+        this.updateAuthUI();
+        this.showNotification('Account created successfully!');
+      }
+      
+      logout() {
+        this.isLoggedIn = false;
+        this.userData = null;
+        localStorage.setItem('isLoggedIn', 'false');
+        localStorage.removeItem('userData');
+        this.updateAuthUI();
+        this.showHomePage();
+        this.showNotification('You have been logged out.');
+      }
+      
+      showForgotPasswordModal() {
+        this.hideAuthModal();
+        this.showModal('forgotPasswordModal');
+      }
+      
+      sendResetLink() {
+        const email = document.getElementById('resetEmail').value;
+        
+        if (!email || !this.validateEmail(email)) {
+          this.showNotification('Please enter a valid email address');
+          return;
+        }
+        
+        // In a real app, you would send a reset link to the email
+        this.hideModal('forgotPasswordModal');
+        this.showNotification('Password reset link sent to your email');
+      }
+      
+      // Wallet System
+      loadWalletData() {
+        // In a real app, this would come from an API
+        const walletBalance = Math.random() * 50000 + 1000;
+        document.getElementById('walletBalance').textContent = `₦${walletBalance.toFixed(2)}`;
+        
+        // Mock transactions
+        const transactions = [
+          {
+            id: 1,
+            type: 'credit',
+            amount: 15000,
+            title: 'Wallet Top-up',
+            date: '2023-05-10',
+            method: 'Card'
+          },
+          {
+            id: 2,
+            type: 'debit',
+            amount: 5000,
+            title: 'Payment to Electrician',
+            date: '2023-05-08',
+            method: 'Wallet'
+          },
+          {
+            id: 3,
+            type: 'credit',
+            amount: 10000,
+            title: 'Wallet Top-up',
+            date: '2023-05-05',
+            method: 'Bank Transfer'
+          }
+        ];
+        
+        const transactionList = document.getElementById('transactionList');
+        transactionList.innerHTML = '';
+        
+        transactions.forEach(txn => {
+          const txnElement = document.createElement('div');
+          txnElement.className = 'transaction-item';
+          txnElement.innerHTML = `
+            <div>
+              <i class="fas fa-${txn.type === 'credit' ? 'arrow-down' : 'arrow-up'}" 
+                 style="color: ${txn.type === 'credit' ? 'var(--success)' : 'var(--error)'}"></i>
+            </div>
+            <div class="transaction-details">
+              <div class="transaction-title">${txn.title}</div>
+              <div class="transaction-date">${txn.date} • ${txn.method}</div>
+            </div>
+            <div class="transaction-amount ${txn.type === 'credit' ? 'credit' : ''}">
+              ${txn.type === 'credit' ? '+' : '-'}₦${txn.amount.toFixed(2)}
+            </div>
+          `;
+          transactionList.appendChild(txnElement);
+        });
+      }
+      
+      showAddMoneyModal() {
+        this.showModal('addMoneyModal');
+      }
+      
+      showSendMoneyModal() {
+        this.showNotification('Send money feature coming soon');
+      }
+      
+      showWithdrawModal() {
+        this.showNotification('Withdrawal feature coming soon');
+      }
+      
+      showTransactionHistory() {
+        // Already shown by default in wallet page
+      }
+      
+      processPayment() {
+        const amount = parseFloat(document.getElementById('addAmount').value);
+        const method = document.getElementById('addPaymentMethod').value;
+        
+        if (!amount || amount < 100) {
+          this.showNotification('Minimum amount is ₦100');
+          return;
+        }
+        
+        if (!method) {
+          this.showNotification('Please select a payment method');
+          return;
+        }
+        
+        // In a real app, this would process payment with Stripe or other gateway
+        this.hideModal('addMoneyModal');
+        this.showNotification(`Payment of ₦${amount.toFixed(2)} processed successfully`);
+        
+        // Update wallet balance
+        const currentBalance = parseFloat(
+          document.getElementById('walletBalance').textContent.replace('₦', '')
+        );
+        const newBalance = currentBalance + amount;
+        document.getElementById('walletBalance').textContent = `₦${newBalance.toFixed(2)}`;
+        
+        // Add transaction to history
+        const transactionList = document.getElementById('transactionList');
+        const txnElement = document.createElement('div');
+        txnElement.className = 'transaction-item';
+        txnElement.innerHTML = `
+          <div>
+            <i class="fas fa-arrow-down" style="color: var(--success)"></i>
+          </div>
+          <div class="transaction-details">
+            <div class="transaction-title">Wallet Top-up</div>
+            <div class="transaction-date">${new Date().toLocaleDateString()} • ${method}</div>
+          </div>
+          <div class="transaction-amount credit">
+            +₦${amount.toFixed(2)}
+          </div>
+        `;
+        transactionList.insertBefore(txnElement, transactionList.firstChild);
+      }
+      
+      // Chat System
+      startChat() {
+        if (!this.isLoggedIn) {
+          this.showAuthModal('login');
+          return;
+        }
+        
+        if (this.currentArtisan) {
+          this.openChat(this.currentArtisan);
+        }
+      }
+      
+      openChat(artisan) {
+        this.currentChatId = `chat_${artisan.id}`;
+        
+        // Initialize chat if it doesn't exist
+        if (!this.messages[this.currentChatId]) {
+          this.messages[this.currentChatId] = {
+            artisan: artisan,
+            messages: [
+              {
+                sender: 'bot',
+                text: `Hi there! You're now chatting with ${artisan.name}. How can I help you today?`,
+                time: new Date().toISOString()
+              }
+            ],
+            unread: 0
+          };
+          this.saveMessages();
+        }
+        
+        // Mark messages as read
+        this.messages[this.currentChatId].unread = 0;
+        this.saveMessages();
+        
+        // Update chat header
+        document.getElementById('chat-artisan-name').textContent = artisan.name;
+        document.getElementById('chat-artisan-profession').textContent = artisan.serviceName;
+        document.getElementById('chatArtisanPic').src = artisan.pic;
+        
+        // Show chat page
+        this.hideAllPages();
+        document.getElementById('chat-page').style.display = 'block';
+        
+        // Load messages
+        this.loadMessages();
+        
+        // Focus on input field
+        setTimeout(() => {
+          document.getElementById('chat-input-field').focus();
+        }, 100);
+      }
+      
+      loadMessages() {
+        const chatMessages = document.getElementById('chat-messages');
+        chatMessages.innerHTML = '';
+        
+        if (this.messages[this.currentChatId] && this.messages[this.currentChatId].messages.length > 0) {
+          this.messages[this.currentChatId].messages.forEach(msg => {
+            this.addMessageToChat(msg.sender, msg.text, msg.time, false, msg.image);
+          });
+        }
+        
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+      
+      sendMessage() {
+        const inputField = this.chatInputField;
+        const messageText = inputField.value.trim();
+        
+        if (messageText === '') return;
+        
+        const timestamp = new Date().toISOString();
+        
+        // Add user message
+        this.addMessageToChat('user', messageText, timestamp, true);
+        inputField.value = '';
+        
+        // Simulate bot response after a short delay
+        setTimeout(() => {
+          const responses = [
+            "Thanks for your message! I'll get back to you soon.",
+            "I understand your request. Let me check my availability.",
+            "That's a great question! Let me think about the best solution.",
+            "I can help with that. What's your preferred time for the service?",
+            "Got it! Do you have any specific requirements?"
+          ];
+          const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+          this.addMessageToChat('bot', randomResponse, new Date().toISOString(), true);
+        }, 1000 + Math.random() * 2000);
+      }
+      
+      handleFileUpload(file) {
+        if (!file) return;
+        
+        if (!file.type.match('image.*')) {
+          this.showNotification('Only image files are supported');
+          return;
+        }
+        
+        if (file.size > 5 * 1024 * 1024) { // 5MB limit
+          this.showNotification('Image size should be less than 5MB');
+          return;
+        }
+        
+        // In a real app, you would upload the file to a server
+        // For this demo, we'll just display it directly
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const timestamp = new Date().toISOString();
+          this.addMessageToChat('user', 'Image', timestamp, true, e.target.result);
+          
+          // Simulate bot response
+          setTimeout(() => {
+            this.addMessageToChat('bot', 'Thanks for sharing the image. I can see what you mean now.', 
+              new Date().toISOString(), true);
+          }, 1500);
+        };
+        reader.readAsDataURL(file);
+        
+        // Reset file input
+        this.fileInput.value = '';
+      }
+      
+      addMessageToChat(sender, text, timestamp, saveToStorage, imageUrl = null) {
+        const chatMessages = document.getElementById('chat-messages');
+        const messageTime = new Date(timestamp);
+        const timeString = messageTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender === 'user' ? 'sent' : 'received'}`;
+        
+        let messageContent = '';
+        if (imageUrl) {
+          messageContent = `
+            <div class="message-content">
+              <img src="${imageUrl}" class="message-image" alt="Shared image" loading="lazy">
+              ${text !== 'Image' ? `<p>${text}</p>` : ''}
+            </div>
+          `;
+        } else {
+          messageContent = `
+            <div class="message-content">${text}</div>
+          `;
+        }
+        
+        messageDiv.innerHTML = `
+          ${messageContent}
+          <div class="message-time">${timeString}</div>
+        `;
+        
+        chatMessages.appendChild(messageDiv);
+        
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        // Save to storage if needed
+        if (saveToStorage && this.currentChatId) {
+          if (!this.messages[this.currentChatId]) {
+            this.messages[this.currentChatId] = {
+              artisan: this.currentArtisan,
+              messages: []
+            };
+          }
+          
+          this.messages[this.currentChatId].messages.push({
+            sender: sender,
+            text: text,
+            time: timestamp,
+            image: imageUrl || undefined
+          });
+          
+          this.saveMessages();
+          this.loadMessagesList();
+        }
+      }
+      
+      sendTypingIndicator() {
+        const typingIndicator = document.getElementById('typingIndicator');
+        
+        // Show typing indicator
+        typingIndicator.classList.add('active');
+        
+        // Clear previous timeout if it exists
+        if (this.typingTimeout) {
+          clearTimeout(this.typingTimeout);
+        }
+        
+        // Hide after 2 seconds of inactivity
+        this.typingTimeout = setTimeout(() => {
+          typingIndicator.classList.remove('active');
+        }, 2000);
+      }
+      
+      loadMessagesList() {
+        const messagesList = document.getElementById('messages-list');
+        messagesList.innerHTML = '';
+        
+        if (Object.keys(this.messages).length === 0) {
+          messagesList.innerHTML = '<p style="text-align: center; margin-top: 20px; color: #666;">No messages yet</p>';
+          return;
+        }
+        
+        Object.entries(this.messages).forEach(([chatId, chatData]) => {
+          const lastMessage = chatData.messages[chatData.messages.length - 1];
+          const messageTime = new Date(lastMessage.time);
+          const timeString = messageTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          const dateString = messageTime.toLocaleDateString();
+          
+          const previewText = lastMessage.image 
+            ? '📷 Image' 
+            : lastMessage.text.length > 30 
+              ? lastMessage.text.substring(0, 30) + '...' 
+              : lastMessage.text;
+          
+          const messageItem = document.createElement('div');
+          messageItem.className = 'message-item';
+          messageItem.setAttribute('role', 'button');
+          messageItem.setAttribute('tabindex', '0');
+          messageItem.addEventListener('click', () => {
+            this.currentArtisan = chatData.artisan;
+            this.openChat(chatData.artisan);
+          });
+          messageItem.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+              this.currentArtisan = chatData.artisan;
+              this.openChat(chatData.artisan);
+            }
+          });
+          
+          messageItem.innerHTML = `
+            <img src="${chatData.artisan.pic}" class="message-item-pic" alt="${chatData.artisan.name}">
+            <div class="message-item-info">
+              <div class="message-item-name">${chatData.artisan.name}</div>
+              <div class="message-item-preview">${previewText}</div>
+            </div>
+            <div class="message-item-time">
+              <div>${dateString}</div>
+              <div>${timeString}</div>
+            </div>
+            ${chatData.unread > 0 ? `<div class="unread-count">${chatData.unread}</div>` : ''}
+          `;
+          
+          messagesList.appendChild(messageItem);
+        });
+      }
+      
+      saveMessages() {
+        localStorage.setItem('artisanMessages', JSON.stringify(this.messages));
+      }
+      
+      goBackFromChat() {
+        if (this.currentArtisan) {
+          this.showArtisanProfile(this.currentArtisan);
+        } else {
+          this.showMessagesPage();
+        }
+      }
+      
+      // Call Functionality
+      startCall() {
+        if (!this.isLoggedIn) {
+          this.showAuthModal('login');
+          return;
+        }
+        
+        if (this.currentArtisan) {
+          this.showNotification(`Calling ${this.currentArtisan.name}...`);
+          // In a real app, this would initiate a voice/video call
+        }
+      }
+      
+      // Navigation Functions
+      goBackToList() {
+        this.hideAllPages();
+        document.getElementById('artisan-list-page').style.display = 'block';
+        this.updateActiveTab('home');
+      }
+      
+      // Location Services
+      useCurrentLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const { latitude, longitude } = position.coords;
+              // In a real app, you would reverse geocode to get address
+              this.showNotification("Location detected! Using your current location.");
+              
+              // Update location select
+              document.getElementById('locationSelect').value = 'Current Location';
+            },
+            (error) => {
+              console.error("Geolocation error:", error);
+              this.showNotification("Could not detect location. Please select manually.");
+            }
+          );
+        } else {
+          this.showNotification("Geolocation not supported. Please select manually.");
+        }
+      }
     }
 
-    // Initialize
-    showHomePage();
+    // Initialize the app when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      const app = new ArtisanHub();
+    });
   </script>
 </body>
 </html>
