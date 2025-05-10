@@ -269,6 +269,36 @@
       display: block;
     }
     
+    /* Signup Tabs */
+    .signup-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 15px;
+    }
+    
+    .signup-tab {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: var(--transition);
+    }
+    
+    .signup-tab.active {
+      border-bottom-color: var(--primary);
+      font-weight: bold;
+      color: var(--primary);
+    }
+    
+    .signup-content {
+      display: none;
+    }
+    
+    .signup-content.active {
+      display: block;
+    }
+    
     .form-group {
       margin-bottom: 15px;
     }
@@ -279,7 +309,8 @@
       font-weight: 500;
     }
     
-    .form-group input {
+    .form-group input,
+    .form-group select {
       width: 100%;
       padding: 10px;
       border: 1px solid var(--border-color);
@@ -289,7 +320,8 @@
       color: var(--text-color);
     }
     
-    .form-group input:focus {
+    .form-group input:focus,
+    .form-group select:focus {
       border-color: var(--primary);
       outline: none;
       box-shadow: 0 0 0 2px rgba(255,140,0,0.2);
@@ -1135,7 +1167,7 @@
     
     .wallet-actions {
       display: grid;
-      grid-template-columns: repeat(2, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 10px;
       margin-bottom: 20px;
     }
@@ -1692,37 +1724,96 @@
           </div>
         </form>
         
-        <form class="auth-form" id="signupForm" novalidate>
-          <div class="form-group">
-            <label for="signupName">Full Name</label>
-            <input type="text" id="signupName" placeholder="Enter your full name" required aria-required="true">
-            <div class="form-error" id="signupNameError">Please enter your name</div>
+        <div class="auth-form" id="signupForm">
+          <div class="signup-tabs">
+            <div class="signup-tab active" id="clientSignupTab">Client Sign Up</div>
+            <div class="signup-tab" id="artisanSignupTab">Artisan Sign Up</div>
           </div>
-          <div class="form-group">
-            <label for="signupEmail">Email</label>
-            <input type="email" id="signupEmail" placeholder="Enter your email" required aria-required="true">
-            <div class="form-error" id="signupEmailError">Please enter a valid email address</div>
+          
+          <div class="signup-content active" id="clientSignupForm">
+            <div class="form-group">
+              <label for="clientName">Full Name</label>
+              <input type="text" id="clientName" placeholder="Enter your full name" required aria-required="true">
+              <div class="form-error" id="clientNameError">Please enter your name</div>
+            </div>
+            <div class="form-group">
+              <label for="clientPhone">Phone Number</label>
+              <input type="tel" id="clientPhone" placeholder="Enter your phone number" required aria-required="true">
+              <div class="form-error" id="clientPhoneError">Please enter a valid Nigerian phone number</div>
+            </div>
+            <div class="form-group">
+              <label for="clientNin">NIN (National Identification Number)</label>
+              <input type="text" id="clientNin" placeholder="Enter your 11-digit NIN" required aria-required="true">
+              <div class="form-error" id="clientNinError">Please enter a valid 11-digit NIN</div>
+            </div>
+            <div class="form-group">
+              <label for="clientPassword">Password</label>
+              <input type="password" id="clientPassword" placeholder="Create a password" required aria-required="true">
+              <div class="form-error" id="clientPasswordError">Password must be at least 8 characters with 1 number</div>
+            </div>
+            <div class="form-group">
+              <label for="clientConfirm">Confirm Password</label>
+              <input type="password" id="clientConfirm" placeholder="Confirm your password" required aria-required="true">
+              <div class="form-error" id="clientConfirmError">Passwords do not match</div>
+            </div>
+            <button type="button" class="auth-btn" id="clientSignupBtn">Sign Up as Client</button>
           </div>
-          <div class="form-group">
-            <label for="signupPhone">Phone Number</label>
-            <input type="tel" id="signupPhone" placeholder="Enter your phone number" required aria-required="true">
-            <div class="form-error" id="signupPhoneError">Please enter a valid phone number</div>
+          
+          <div class="signup-content" id="artisanSignupForm">
+            <div class="form-group">
+              <label for="artisanName">Full Name</label>
+              <input type="text" id="artisanName" placeholder="Enter your full name" required aria-required="true">
+              <div class="form-error" id="artisanNameError">Please enter your name</div>
+            </div>
+            <div class="form-group">
+              <label for="artisanPhone">Phone Number</label>
+              <input type="tel" id="artisanPhone" placeholder="Enter your phone number" required aria-required="true">
+              <div class="form-error" id="artisanPhoneError">Please enter a valid Nigerian phone number</div>
+            </div>
+            <div class="form-group">
+              <label for="artisanService">Service Type</label>
+              <select id="artisanService" required aria-required="true">
+                <option value="">Select your service</option>
+                <option value="electrician">Electrician</option>
+                <option value="plumber">Plumber</option>
+                <option value="carpenter">Carpenter</option>
+                <option value="painter">Painter</option>
+                <option value="tailor">Tailor</option>
+                <option value="hairdresser">Hair Stylist</option>
+                <option value="mechanic">Mechanic</option>
+                <option value="cleaner">Cleaner</option>
+                <option value="welder">Welder</option>
+                <option value="bricklayer">Bricklayer</option>
+              </select>
+              <div class="form-error" id="artisanServiceError">Please select your service type</div>
+            </div>
+            <div class="form-group">
+              <label for="artisanExperience">Years of Experience</label>
+              <input type="number" id="artisanExperience" min="0" placeholder="Enter years of experience" required aria-required="true">
+              <div class="form-error" id="artisanExperienceError">Please enter valid experience</div>
+            </div>
+            <div class="form-group">
+              <label for="artisanLocation">Location</label>
+              <input type="text" id="artisanLocation" placeholder="Enter your location" required aria-required="true">
+              <div class="form-error" id="artisanLocationError">Please enter your location</div>
+            </div>
+            <div class="form-group">
+              <label for="artisanPassword">Password</label>
+              <input type="password" id="artisanPassword" placeholder="Create a password" required aria-required="true">
+              <div class="form-error" id="artisanPasswordError">Password must be at least 8 characters with 1 number</div>
+            </div>
+            <div class="form-group">
+              <label for="artisanConfirm">Confirm Password</label>
+              <input type="password" id="artisanConfirm" placeholder="Confirm your password" required aria-required="true">
+              <div class="form-error" id="artisanConfirmError">Passwords do not match</div>
+            </div>
+            <button type="button" class="auth-btn" id="artisanSignupBtn">Sign Up as Artisan</button>
           </div>
-          <div class="form-group">
-            <label for="signupPassword">Password</label>
-            <input type="password" id="signupPassword" placeholder="Create a password" required aria-required="true">
-            <div class="form-error" id="signupPasswordError">Password must be at least 8 characters with 1 number</div>
-          </div>
-          <div class="form-group">
-            <label for="signupConfirm">Confirm Password</label>
-            <input type="password" id="signupConfirm" placeholder="Confirm your password" required aria-required="true">
-            <div class="form-error" id="signupConfirmError">Passwords do not match</div>
-          </div>
-          <button type="button" class="auth-btn" id="signupBtn">Create Account</button>
+          
           <div class="auth-footer">
             Already have an account? <a href="#" id="switchToLogin">Login</a>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   </div>
@@ -1835,7 +1926,30 @@
     </div>
   </div>
 
-  <!-- 11. About Page -->
+  <!-- 11. Verification Modal -->
+  <div class="modal" id="verificationModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Verify Your Phone</h3>
+        <button class="modal-close" id="closeVerificationModal" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>We've sent a 6-digit verification code to your phone number <span id="verificationPhone"></span></p>
+        <div class="form-group">
+          <label for="verificationCode">Verification Code</label>
+          <input type="text" id="verificationCode" placeholder="Enter 6-digit code" maxlength="6">
+          <div class="form-error" id="verificationCodeError">Please enter the 6-digit code</div>
+        </div>
+        <p id="resendCodeText">Didn't receive code? <a href="#" id="resendCode">Resend code</a></p>
+      </div>
+      <div class="modal-footer">
+        <button class="action-btn" id="cancelVerification">Cancel</button>
+        <button class="action-btn book-btn" id="verifyCodeBtn">Verify</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12. About Page -->
   <div id="about-page" style="display: none;">
     <header>
       <div class="logo-container">
@@ -1867,12 +1981,11 @@
         <h3 style="margin-top: 20px;">Contact Us</h3>
         <p>Email: artisanhub.ng@gmail.com</p>
         <p>Phone: +234 803 216 0355</p>
-        <p>Developed by - Kehinde Ayoola</p>
       </div>
     </main>
   </div>
 
-  <!-- 12. Settings Page -->
+  <!-- 13. Settings Page -->
   <div id="settings-page" style="display: none;">
     <header>
       <div class="logo-container">
@@ -1920,7 +2033,7 @@
     </main>
   </div>
 
-  <!-- 13. Notification -->
+  <!-- 14. Notification -->
   <div class="notification" id="notification"></div>
 
   <!-- Bottom Navigation -->
@@ -1952,6 +2065,8 @@
         this.currentChatId = null;
         this.typingTimeout = null;
         this.darkMode = localStorage.getItem('darkMode') === 'true';
+        this.pendingVerification = null;
+        this.verificationCode = '123456'; // In a real app, this would be generated dynamically
         
         // Initialize app
         this.init();
@@ -2074,7 +2189,8 @@
         
         // Form submissions
         document.getElementById('loginBtn').addEventListener('click', () => this.login());
-        document.getElementById('signupBtn').addEventListener('click', () => this.signup());
+        document.getElementById('clientSignupBtn').addEventListener('click', () => this.clientSignup());
+        document.getElementById('artisanSignupBtn').addEventListener('click', () => this.artisanSignup());
         document.getElementById('switchToLogin').addEventListener('click', (e) => {
           e.preventDefault();
           this.switchAuthTab('login');
@@ -2084,6 +2200,10 @@
           this.showForgotPasswordModal();
         });
         
+        // Signup tab switching
+        document.getElementById('clientSignupTab').addEventListener('click', () => this.switchSignupTab('client'));
+        document.getElementById('artisanSignupTab').addEventListener('click', () => this.switchSignupTab('artisan'));
+        
         // Modal buttons
         document.getElementById('closeAuthModal').addEventListener('click', () => {
           this.hideAuthModal();
@@ -2092,12 +2212,19 @@
         document.getElementById('closeBookingModal').addEventListener('click', () => this.hideModal('bookingModal'));
         document.getElementById('closeAddMoneyModal').addEventListener('click', () => this.hideModal('addMoneyModal'));
         document.getElementById('closeForgotPasswordModal').addEventListener('click', () => this.hideModal('forgotPasswordModal'));
+        document.getElementById('closeVerificationModal').addEventListener('click', () => this.hideModal('verificationModal'));
         document.getElementById('cancelBooking').addEventListener('click', () => this.hideModal('bookingModal'));
         document.getElementById('confirmBooking').addEventListener('click', () => this.submitBooking());
         document.getElementById('cancelAddMoney').addEventListener('click', () => this.hideModal('addMoneyModal'));
         document.getElementById('processPayment').addEventListener('click', () => this.processPayment());
         document.getElementById('cancelForgotPassword').addEventListener('click', () => this.hideModal('forgotPasswordModal'));
         document.getElementById('sendResetLink').addEventListener('click', () => this.sendResetLink());
+        document.getElementById('cancelVerification').addEventListener('click', () => this.hideModal('verificationModal'));
+        document.getElementById('verifyCodeBtn').addEventListener('click', () => this.verifyCode());
+        document.getElementById('resendCode').addEventListener('click', (e) => {
+          e.preventDefault();
+          this.sendVerificationCode();
+        });
         
         // Wallet actions
         document.getElementById('addMoneyBtn').addEventListener('click', () => this.showAddMoneyModal());
@@ -2738,6 +2865,19 @@
         }
       }
       
+      switchSignupTab(type) {
+        document.querySelectorAll('.signup-tab').forEach(tab => {
+          tab.classList.remove('active');
+        });
+        
+        document.querySelectorAll('.signup-content').forEach(content => {
+          content.classList.remove('active');
+        });
+        
+        document.getElementById(`${type}SignupTab`).classList.add('active');
+        document.getElementById(`${type}SignupForm`).classList.add('active');
+      }
+      
       validateEmail(email) {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return re.test(email);
@@ -2751,6 +2891,11 @@
       validatePhone(phone) {
         // Simple Nigerian phone validation
         return /^[0]?[789]\d{9}$/.test(phone);
+      }
+      
+      validateNin(nin) {
+        // Simple NIN validation (11 digits)
+        return /^\d{11}$/.test(nin);
       }
       
       login() {
@@ -2814,7 +2959,8 @@
           id: user.id,
           name: user.name,
           email: user.email,
-          phone: user.phone
+          phone: user.phone,
+          type: user.type
         };
         
         localStorage.setItem('isLoggedIn', 'true');
@@ -2825,97 +2971,180 @@
         this.showNotification('Login successful!');
       }
       
-      signup() {
-        const name = document.getElementById('signupName').value;
-        const email = document.getElementById('signupEmail').value;
-        const phone = document.getElementById('signupPhone').value;
-        const password = document.getElementById('signupPassword').value;
-        const confirm = document.getElementById('signupConfirm').value;
-        
-        const nameError = document.getElementById('signupNameError');
-        const emailError = document.getElementById('signupEmailError');
-        const phoneError = document.getElementById('signupPhoneError');
-        const passwordError = document.getElementById('signupPasswordError');
-        const confirmError = document.getElementById('signupConfirmError');
+      clientSignup() {
+        const name = document.getElementById('clientName').value;
+        const phone = document.getElementById('clientPhone').value;
+        const nin = document.getElementById('clientNin').value;
+        const password = document.getElementById('clientPassword').value;
+        const confirm = document.getElementById('clientConfirm').value;
         
         // Reset errors
-        nameError.style.display = 'none';
-        emailError.style.display = 'none';
-        phoneError.style.display = 'none';
-        passwordError.style.display = 'none';
-        confirmError.style.display = 'none';
+        document.querySelectorAll('#clientSignupForm .form-error').forEach(el => {
+          el.style.display = 'none';
+        });
         
         // Validate inputs
         let isValid = true;
         
         if (!name) {
-          nameError.textContent = 'Name is required';
-          nameError.style.display = 'block';
+          document.getElementById('clientNameError').style.display = 'block';
           isValid = false;
         }
         
-        if (!email) {
-          emailError.textContent = 'Email is required';
-          emailError.style.display = 'block';
-          isValid = false;
-        } else if (!this.validateEmail(email)) {
-          emailError.textContent = 'Please enter a valid email';
-          emailError.style.display = 'block';
+        if (!phone || !this.validatePhone(phone)) {
+          document.getElementById('clientPhoneError').style.display = 'block';
           isValid = false;
         }
         
-        if (!phone) {
-          phoneError.textContent = 'Phone number is required';
-          phoneError.style.display = 'block';
-          isValid = false;
-        } else if (!this.validatePhone(phone)) {
-          phoneError.textContent = 'Please enter a valid Nigerian phone number';
-          phoneError.style.display = 'block';
+        if (!nin || !this.validateNin(nin)) {
+          document.getElementById('clientNinError').style.display = 'block';
           isValid = false;
         }
         
-        if (!password) {
-          passwordError.textContent = 'Password is required';
-          passwordError.style.display = 'block';
-          isValid = false;
-        } else if (!this.validatePassword(password)) {
-          passwordError.textContent = 'Password must be at least 8 characters with 1 number';
-          passwordError.style.display = 'block';
+        if (!password || !this.validatePassword(password)) {
+          document.getElementById('clientPasswordError').style.display = 'block';
           isValid = false;
         }
         
-        if (!confirm) {
-          confirmError.textContent = 'Please confirm your password';
-          confirmError.style.display = 'block';
-          isValid = false;
-        } else if (password !== confirm) {
-          confirmError.textContent = 'Passwords do not match';
-          confirmError.style.display = 'block';
+        if (password !== confirm) {
+          document.getElementById('clientConfirmError').style.display = 'block';
           isValid = false;
         }
         
         if (!isValid) return;
         
-        // In a real app, you would call your backend API here
-        // This is a mock implementation
+        // In a real app, you would send this to your backend
+        this.pendingVerification = {
+          type: 'client',
+          name,
+          phone,
+          nin,
+          password
+        };
         
-        // Check if email already exists
-        const users = JSON.parse(localStorage.getItem('users')) || [];
-        if (users.some(u => u.email === email)) {
-          emailError.textContent = 'Email already registered';
-          emailError.style.display = 'block';
+        this.showVerificationModal(phone);
+      }
+      
+      artisanSignup() {
+        const name = document.getElementById('artisanName').value;
+        const phone = document.getElementById('artisanPhone').value;
+        const service = document.getElementById('artisanService').value;
+        const experience = document.getElementById('artisanExperience').value;
+        const location = document.getElementById('artisanLocation').value;
+        const password = document.getElementById('artisanPassword').value;
+        const confirm = document.getElementById('artisanConfirm').value;
+        
+        // Reset errors
+        document.querySelectorAll('#artisanSignupForm .form-error').forEach(el => {
+          el.style.display = 'none';
+        });
+        
+        // Validate inputs
+        let isValid = true;
+        
+        if (!name) {
+          document.getElementById('artisanNameError').style.display = 'block';
+          isValid = false;
+        }
+        
+        if (!phone || !this.validatePhone(phone)) {
+          document.getElementById('artisanPhoneError').style.display = 'block';
+          isValid = false;
+        }
+        
+        if (!service) {
+          document.getElementById('artisanServiceError').style.display = 'block';
+          isValid = false;
+        }
+        
+        if (!experience || isNaN(experience) || experience < 0) {
+          document.getElementById('artisanExperienceError').style.display = 'block';
+          isValid = false;
+        }
+        
+        if (!location) {
+          document.getElementById('artisanLocationError').style.display = 'block';
+          isValid = false;
+        }
+        
+        if (!password || !this.validatePassword(password)) {
+          document.getElementById('artisanPasswordError').style.display = 'block';
+          isValid = false;
+        }
+        
+        if (password !== confirm) {
+          document.getElementById('artisanConfirmError').style.display = 'block';
+          isValid = false;
+        }
+        
+        if (!isValid) return;
+        
+        // In a real app, you would send this to your backend
+        this.pendingVerification = {
+          type: 'artisan',
+          name,
+          phone,
+          service,
+          experience: parseInt(experience),
+          location,
+          password
+        };
+        
+        this.showVerificationModal(phone);
+      }
+      
+      showVerificationModal(phone) {
+        document.getElementById('verificationPhone').textContent = phone;
+        this.showModal('verificationModal');
+      }
+      
+      sendVerificationCode() {
+        // In a real app, this would send the code via SMS
+        this.showNotification('Verification code resent');
+      }
+      
+      verifyCode() {
+        const code = document.getElementById('verificationCode').value;
+        const codeError = document.getElementById('verificationCodeError');
+        
+        codeError.style.display = 'none';
+        
+        if (!code || code.length !== 6) {
+          codeError.textContent = 'Please enter the 6-digit code';
+          codeError.style.display = 'block';
           return;
         }
         
-        // Create new user
+        // In a real app, you would verify the code with your backend
+        if (code === this.verificationCode) {
+          this.completeSignup();
+        } else {
+          codeError.textContent = 'Invalid verification code';
+          codeError.style.display = 'block';
+        }
+      }
+      
+      completeSignup() {
+        const userData = this.pendingVerification;
+        
+        // In a real app, this would be an API call to your backend
+        const users = JSON.parse(localStorage.getItem('users')) || [];
         const newUser = {
           id: Date.now().toString(),
-          name: name,
-          email: email,
-          phone: phone,
-          password: password, // In a real app, this would be hashed
+          type: userData.type,
+          name: userData.name,
+          phone: userData.phone,
+          password: userData.password, // In a real app, this would be hashed
           createdAt: new Date().toISOString()
         };
+        
+        if (userData.type === 'client') {
+          newUser.nin = userData.nin;
+        } else {
+          newUser.service = userData.service;
+          newUser.experience = userData.experience;
+          newUser.location = userData.location;
+        }
         
         users.push(newUser);
         localStorage.setItem('users', JSON.stringify(users));
@@ -2925,16 +3154,20 @@
         this.userData = {
           id: newUser.id,
           name: newUser.name,
-          email: newUser.email,
-          phone: newUser.phone
+          phone: newUser.phone,
+          type: newUser.type
         };
         
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('userData', JSON.stringify(this.userData));
         
+        this.hideModal('verificationModal');
         this.hideAuthModal();
         this.updateAuthUI();
         this.showNotification('Account created successfully!');
+        
+        // Clear pending verification
+        this.pendingVerification = null;
       }
       
       logout() {
